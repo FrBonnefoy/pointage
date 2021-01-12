@@ -217,7 +217,7 @@ class scrape_light:
 
 def printext(x):
     for a in x:
-        print(a.text)
+        print(a.text.strip())
 
 
 def geturls(x):
