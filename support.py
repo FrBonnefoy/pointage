@@ -14,6 +14,9 @@ import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import glob
+import csv
+from xlsxwriter.workbook import Workbook
 
 current_path=os.getcwd()
 
@@ -203,3 +206,14 @@ def alterurls(x,y):
 def printhtml(x):
     for a in x:
         print(a)
+
+def excelfy():
+    for csvfile in glob.glob(os.path.join('.', '*.csv')):
+        workbook = Workbook(csvfile + '.xlsx')
+        worksheet = workbook.add_worksheet()
+        with open(csvfile, 'rt', encoding='utf8') as f:
+            reader = csv.reader(f)
+            for r, row in enumerate(reader):
+                for c, col in enumerate(row):
+                    worksheet.write(r, c, col)
+        workbook.close()
