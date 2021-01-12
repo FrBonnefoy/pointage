@@ -209,7 +209,7 @@ def printhtml(x):
 
 def excelfy():
     for csvfile in glob.glob(os.path.join('.', '*.csv')):
-        workbook = Workbook(csvfile + '.xlsx')
+        workbook = Workbook(csvfile[:-4] + '.xlsx')
         worksheet = workbook.add_worksheet()
         with open(csvfile, 'rt', encoding='utf8') as f:
             reader = csv.reader(f)
