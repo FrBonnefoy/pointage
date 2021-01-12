@@ -198,7 +198,7 @@ def geturls(x):
             pass
 
 def alterurls(x,y):
-    list(map(lambda z: y+z,x))
+    return list(map(lambda z: y+z,x))
 
 def printhtml(x):
     for a in x:
