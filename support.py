@@ -250,3 +250,21 @@ def excelfy_specific(x):
     excelfile=x[:-4] + '.xlsx'
     df.to_excel(excelfile, index = False)
     display(df)
+
+def reste_a_pointer(x,y,z):
+    if x[-4:]=='.csv':
+        df=pd.read_csv(x, sep='\t')
+        filtered_df = df[df[z].isnull()]
+        noms = filtered_df[y].tolist()
+        with open(x[:-4]+'_a_pointer.txt','w') as f:
+            for nom in noms:
+                print(nom.strip(),file=f)
+                print(nom)
+    if x[-5:]=='.xlsx':
+        df=pd.read_excel(x)
+        filtered_df = df[df[z].isnull()]
+        noms = filtered_df[y].tolist()
+        with open(x[:-4]+'_a_pointer.txt','w') as f:
+            for nom in noms:
+                print(nom.strip(),file=f)
+                print(nom)
