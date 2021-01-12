@@ -18,6 +18,7 @@ import glob
 import csv
 from xlsxwriter.workbook import Workbook
 import pandas as pd
+from IPython.display import display
 
 current_path=os.getcwd()
 
@@ -213,4 +214,4 @@ def excelfy():
         df=pd.read_csv(csvfile, sep='\t')
         excelfile=csvfile[:-4] + '.xlsx'
         df.to_excel(excelfile, index = False)
-        print(df)
+        display(df)
