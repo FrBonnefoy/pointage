@@ -37,8 +37,8 @@ proxyDict = {
 
 #Define requests function
 def req(x):
-    global page
-    page=requests.get(x,proxies=proxyDict,verify=False)
+    global content
+    content=requests.get(x,proxies=proxyDict,verify=False)
 
 
 
@@ -168,12 +168,27 @@ class scrape:
         self.x = x
         self.y = y if y is not None else x
     def now(self):
-        content=browser.page_source
+        if content not in globals():
+            content=browser.page_source
         sopa=soup(content,'html.parser')
         if self.x==self.y:
             return sopa.findAll(self.x)
         else:
             return sopa.findAll(self.x,self.y)
+    def find(self,z):
+        treasure=re.compile(z)
+        tempfind=[]
+        if content not in globals():
+            content=browser.page_source
+        sopa=soup(content,'html.parser')
+        if self.x==self.y:
+            nugget=sopa.findAll(self.x)
+        else:
+            nugget=sopa.findAll(self.x,self.y)
+        for a in nugget:
+            findings=treasure.findall(a.text)
+            tempfind.append(findings)
+        return tempfind
 
 class scrape_light:
     def __init__(self,x,y=None):
@@ -186,7 +201,15 @@ class scrape_light:
             return sopa.findAll(self.x)
         else:
             return sopa.findAll(self.x,self.y)
-
+    def find(self,z):
+        treasure=re.compile(z)
+        tempfind=[]
+        content=page.text
+        sopa=soup(content,'html.parser')
+        if self.x==self.y:
+            nugget=sopa.findAll(self.x)
+        else:
+            nugget=sopa.findAll(self.x,self.y)
 
 def printext(x):
     for a in x:
