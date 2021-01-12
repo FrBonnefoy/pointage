@@ -37,8 +37,8 @@ proxyDict = {
 
 #Define requests function
 def req(x):
-    global content
-    content=requests.get(x,proxies=proxyDict,verify=False)
+    global page
+    page=requests.get(x,proxies=proxyDict,verify=False)
 
 
 
@@ -163,6 +163,7 @@ def change(x):
 	browser.get(x)
 
 
+
 class scrape:
     def __init__(self,x,y=None):
         self.x = x
@@ -178,8 +179,7 @@ class scrape:
     def find(self,z):
         treasure=re.compile(z)
         tempfind=[]
-        if content not in globals():
-            content=browser.page_source
+        content=browser.page_source
         sopa=soup(content,'html.parser')
         if self.x==self.y:
             nugget=sopa.findAll(self.x)
@@ -210,6 +210,10 @@ class scrape_light:
             nugget=sopa.findAll(self.x)
         else:
             nugget=sopa.findAll(self.x,self.y)
+        for a in nugget:
+            findings=treasure.findall(a.text)
+            tempfind.append(findings)
+        return tempfind
 
 def printext(x):
     for a in x:
