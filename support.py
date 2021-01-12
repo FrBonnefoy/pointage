@@ -244,3 +244,9 @@ def excelfy():
         excelfile=csvfile[:-4] + '.xlsx'
         df.to_excel(excelfile, index = False)
         display(df)
+
+def excelfy_specific(x):
+    df=pd.read_csv(x,sep='\t')
+    excelfile=x[:-4] + '.xlsx'
+    df.to_excel(excelfile, index = False)
+    display(df)
