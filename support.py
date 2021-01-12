@@ -211,8 +211,8 @@ class scrape_light:
         else:
             nugget=sopa.findAll(self.x,self.y)
         for a in nugget:
-            findings=treasure.findall(a.text)
-            tempfind.append(findings)
+            tempfind=treasure.findall(a.text)
+            #tempfind.append(findings)
         return tempfind
 
 def printext(x):
