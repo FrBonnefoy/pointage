@@ -212,7 +212,7 @@ class scrape_light:
             nugget=sopa.findAll(self.x,self.y)
         for a in nugget:
             tempfind=treasure.findall(a.text)
-            if len(tempfind)=0:
+            if len(tempfind)==0:
                 tempfind.append("")
             #tempfind.append(findings)
         return tempfind
