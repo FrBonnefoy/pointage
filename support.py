@@ -169,8 +169,7 @@ class scrape:
         self.x = x
         self.y = y if y is not None else x
     def now(self):
-        if content not in globals():
-            content=browser.page_source
+        content=browser.page_source
         sopa=soup(content,'html.parser')
         if self.x==self.y:
             return sopa.findAll(self.x)
