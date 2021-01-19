@@ -79,7 +79,7 @@ def open_session_firefox_no_proxy():
     options.add_argument("--window-size=1280×720")
     #options.add_argument('start-maximized')
     profile = webdriver.FirefoxProfile()
-    profile.add_extension(current_path+"/disable_webrtc-1.0.23-an+fx.xpi")
+    #profile.add_extension(current_path+"/disable_webrtc-1.0.23-an+fx.xpi")
     #profile.add_extension(current_path+"/adblock_for_firefox-4.24.1-fx.xpi")
     #profile.add_extension(current_path+"/image_block-5.0-fx.xpi")
     #profile.add_extension(current_path+"/ublock_origin-1.31.0-an+fx.xpi")
@@ -88,7 +88,7 @@ def open_session_firefox_no_proxy():
     profile.set_preference("permissions.default.image", 2)
     profile.update_preferences()
     browser = webdriver.Firefox(profile,options=options)
-    browser.install_addon(current_path+"/disable_webrtc-1.0.23-an+fx.xpi", temporary=True)
+    #browser.install_addon(current_path+"/disable_webrtc-1.0.23-an+fx.xpi", temporary=True)
     #browser.install_addon(current_path+"/image_block-5.0-fx.xpi", temporary=True)
     #browser.install_addon(current_path+"/ublock_origin-1.31.0-an+fx.xpi", temporary=True)
 
