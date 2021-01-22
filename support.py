@@ -40,6 +40,12 @@ def req(x):
     global page
     page=requests.get(x,proxies=proxyDict,verify=False)
 
+#Define requests function
+def req2(x):
+    global page
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
+
 
 
 def help():
