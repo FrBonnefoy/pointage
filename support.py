@@ -110,7 +110,7 @@ def open_session_firefox():
     options = FirefoxOptions()
     options.add_argument('--proxy-server=%s' % PROXY)
     options.add_argument("--headless")
-    options.add_argument("--window-size=1024x768")
+    options.add_argument("--window-size=1024x5000")
     #options.add_argument('start-maximized')
     profile = webdriver.FirefoxProfile()
     #profile.add_extension(current_path+"/disable_webrtc-1.0.23-an+fx.xpi")
@@ -138,15 +138,18 @@ def open_session():
     chrome_options.add_argument("--window-size=1920x4080")
     chrome_options.add_argument('start-maximized')
     chrome_options.add_argument('disable-infobars')
-    chrome_options.add_argument('--force-webrtc-ip-handling-policy')
+
 
     preferences = {
     "webrtc.ip_handling_policy" : "disable_non_proxied_udp",
     "webrtc.multiple_routes_enabled": False,
     "webrtc.nonproxied_udp_enabled" : False,
-    'profile.managed_default_content_settings.javascript': 2
+    'profile.managed_default_content_settings.javascript': 2,
+    "enforce-webrtc-ip-permission-check": True
     }
     chrome_options.add_experimental_option("prefs", preferences)
+    chrome_options.add_argument('--force-webrtc-ip-handling-policy')
+
     browser = webdriver.Chrome(options=chrome_options)
 
 def screenshot(x):
