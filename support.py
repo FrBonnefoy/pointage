@@ -138,6 +138,12 @@ def open_session():
     chrome_options.add_argument("--window-size=1920x4080")
     chrome_options.add_argument('start-maximized')
     chrome_options.add_argument('disable-infobars')
+    preferences = {
+    "webrtc.ip_handling_policy" : "disable_non_proxied_udp",
+    "webrtc.multiple_routes_enabled": False,
+    "webrtc.nonproxied_udp_enabled" : False
+    }
+    chrome_options.add_experimental_option("prefs", preferences)
     browser = webdriver.Chrome(options=chrome_options)
 
 def screenshot(x):
