@@ -138,6 +138,13 @@ def open_session():
     chrome_options.add_argument("--window-size=1920x4080")
     chrome_options.add_argument('start-maximized')
     chrome_options.add_argument('disable-infobars')
+    chrome_options.add_argument('--disable-webrtc-encryption')
+    chrome_options.add_argument('--disable-webrtc-hw-encoding')
+    chrome_options.add_argument('--disable-webrtc-hw-decoding')
+    chrome_options.add_argument('--force-webrtc-ip-handling-policy')
+    chrome_options.add_argument('--use-fake-device-for-media-stream')
+    chrome_options.add_argument('-use-fake-ui-for-media-stream')
+
     preferences = {
     "webrtc.ip_handling_policy" : "disable_non_proxied_udp",
     "webrtc.multiple_routes_enabled": False,
