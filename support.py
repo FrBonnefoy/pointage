@@ -138,8 +138,8 @@ def open_session():
     chrome_options.add_argument("--window-size=1920x4080")
     chrome_options.add_argument('start-maximized')
     chrome_options.add_argument('disable-infobars')
-
-
+    chrome_options.add_extension('~/webrtc.crx')
+    '''
     preferences = {
     "webrtc.ip_handling_policy" : "disable_non_proxied_udp",
     "webrtc.multiple_routes_enabled": False,
@@ -149,7 +149,7 @@ def open_session():
     }
     chrome_options.add_experimental_option("prefs", preferences)
     chrome_options.add_argument('--force-webrtc-ip-handling-policy')
-
+    '''
     browser = webdriver.Chrome(options=chrome_options)
 
 def screenshot(x):
