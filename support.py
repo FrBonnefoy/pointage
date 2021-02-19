@@ -143,7 +143,8 @@ def open_session():
     preferences = {
     "webrtc.ip_handling_policy" : "disable_non_proxied_udp",
     "webrtc.multiple_routes_enabled": False,
-    "webrtc.nonproxied_udp_enabled" : False
+    "webrtc.nonproxied_udp_enabled" : False,
+    'profile.managed_default_content_settings.javascript': 2
     }
     chrome_options.add_experimental_option("prefs", preferences)
     browser = webdriver.Chrome(options=chrome_options)
