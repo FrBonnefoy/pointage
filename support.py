@@ -119,7 +119,7 @@ def open_session_firefox():
     #profile.add_extension(current_path+"/ublock_origin-1.31.0-an+fx.xpi")
     profile.DEFAULT_PREFERENCES['frozen']["media.peerconnection.enabled" ] = False
     profile.set_preference("media.peerconnection.enabled", False)
-    profile.set_preference("permissions.default.image", 2)
+    #profile.set_preference("permissions.default.image", 2)
     profile.update_preferences()
     browser = webdriver.Firefox(profile,options=options)
     #browser.install_addon(current_path+"/disable_webrtc-1.0.23-an+fx.xpi", temporary=True)
