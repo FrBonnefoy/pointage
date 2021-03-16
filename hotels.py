@@ -22,6 +22,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from pointage import support as sp
 
 
 #Define open_session
@@ -77,49 +78,49 @@ def pointer(x):
     fhandle.close()
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
-    open_session_firefox()
+    sp.open_session_firefox()
     for line in lines:
         try:
-            browser.get("https://fr.hotels.com/")
-            browser.save_screenshot('test0.png')
+            sp.browser.get("https://fr.hotels.com/")
+            sp.browser.save_screenshot('test0.png')
             line=line.strip()
             print(line)
 
-            #Manipulate browser in order to obtain individual pages
+            #Manipulate sp.browser in order to obtain individual pages
             time.sleep(0.5)
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             except:
                 pass
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-destination').clear()
+            sp.browser.find_element_by_id('qf-0q-destination').clear()
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-localised-check-in').clear()
+            sp.browser.find_element_by_id('qf-0q-localised-check-in').clear()
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-localised-check-out').clear()
+            sp.browser.find_element_by_id('qf-0q-localised-check-out').clear()
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-destination').send_keys(line)
+            sp.browser.find_element_by_id('qf-0q-destination').send_keys(line)
             time.sleep(0.5)
-            #browser.save_screenshot('test.png')
-            browser.find_element_by_id('qf-0q-destination').send_keys(Keys.ENTER)
+            #sp.browser.save_screenshot('test.png')
+            sp.browser.find_element_by_id('qf-0q-destination').send_keys(Keys.ENTER)
             time.sleep(2)
-            #browser.save_screenshot('test2.png')
+            #sp.browser.save_screenshot('test2.png')
             time.sleep(1)
             while True:
                 try:
-                    browser.find_element_by_id('qf-0q-destination').send_keys(Keys.ENTER)
+                    sp.browser.find_element_by_id('qf-0q-destination').send_keys(Keys.ENTER)
                     time.sleep(0.5)
                 except:
                     break
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
                 time.sleep(0.5)
             except:
                 pass
             time.sleep(2)
-            #browser.save_screenshot('test3.png')
+            #sp.browser.save_screenshot('test3.png')
             # Obtain information on specific site
-            webpage=browser.page_source
+            webpage=sp.browser.page_source
             toy_soup2 = soup(webpage, "html.parser")
             gold=toy_soup2.find("div",{"id":"overview-section-4"})
             gold = str(gold)
@@ -131,7 +132,7 @@ def pointer(x):
             except:
                 chambres=''
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             except:
                 pass
             silver=toy_soup2.find("span",{"class":"star-rating-text star-rating-text-strong widget-star-rating-overlay widget-tooltip widget-tooltip-responsive widget-tooltip-ignore-touch"})
@@ -156,7 +157,7 @@ def pointer(x):
             except:
                 vname = ""
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             except:
                 pass
             plastic = toy_soup2.find("span",{"class":"postal-addr"})
@@ -171,12 +172,12 @@ def pointer(x):
             s.to_csv(namefile, mode='a', header=False,sep='\t',index=False)
             #time.sleep(1)
             pbar.update(1)
-        except:
+        except Exception as ex:
             stars=''
             chambres=''
             vname=''
             adrs=''
-            print(line, 'could not be completed')
+            print(line, 'could not be completed','because of',ex)
             varlist=[line,stars,chambres,vname,adrs]
             to_append=varlist
             s = pd.DataFrame(to_append).T
