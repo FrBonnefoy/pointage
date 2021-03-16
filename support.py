@@ -272,7 +272,7 @@ def reste_a_pointer(x,y,z):
     if x[-4:]=='.csv':
         df=pd.read_csv(x, sep='\t')
         filtered_df = df[df[z].isnull()]
-        filtered_df=filtered_df[filtered_df[y].isnull()]
+        filtered_df=filtered_df[~filtered_df[y].isnull()]
         noms = filtered_df[y].tolist()
         with open(x[:-4]+'_a_pointer.txt','w') as f:
             for nom in noms:
