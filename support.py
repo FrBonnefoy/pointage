@@ -139,7 +139,7 @@ def open_session_firefox2():
     options.add_argument('--proxy-server=%s' % PROXY)
     options.add_argument("--headless")
     options.add_argument("--window-size=1024x5000")
-    options.add_argument("user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
+    #options.add_argument("user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
     #options.add_argument('start-maximized')
     profile = webdriver.FirefoxProfile()
     #profile.add_extension(current_path+"/disable_webrtc-1.0.23-an+fx.xpi")
@@ -148,7 +148,7 @@ def open_session_firefox2():
     #profile.add_extension(current_path+"/ublock_origin-1.31.0-an+fx.xpi")
     profile.DEFAULT_PREFERENCES['frozen']["media.peerconnection.enabled" ] = False
     profile.set_preference("media.peerconnection.enabled", False)
-    profile.set_preference("general.useragent.override", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
+    profile.set_preference("general.useragent.override", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1")
     #profile.set_preference("permissions.default.image", 2)
     profile.update_preferences()
     browser = webdriver.Firefox(profile,options=options)
