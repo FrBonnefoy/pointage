@@ -184,4 +184,4 @@ def pointer(x):
             s.to_csv(namefile, mode='a', header=False,sep='\t',index=False)
             #time.sleep(1)
             pbar.update(1)
-    close_session()
+    sp.browser.quit()
