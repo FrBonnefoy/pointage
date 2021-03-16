@@ -281,8 +281,9 @@ def reste_a_pointer(x,y,z):
     if x[-5:]=='.xlsx':
         df=pd.read_excel(x)
         filtered_df = df[df[z].isnull()]
+        filtered_df=filtered_df[~filtered_df[y].isnull()]
         noms = filtered_df[y].tolist()
         with open(x[:-4]+'_a_pointer.txt','w') as f:
             for nom in noms:
-                print(nom.strip(),file=f)
+                print(str(nom).strip(),file=f)
                 print(nom)
