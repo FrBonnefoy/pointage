@@ -199,6 +199,14 @@ def alternative(x,y):
         time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
         time.sleep(0.3)
+        while True:
+            try:
+                sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
+                time.sleep(1.5)
+            except:
+                break
+
+        '''
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
         #sp.browser.save_screenshot('test.png')while True:
         time.sleep(0.3)
@@ -224,6 +232,7 @@ def alternative(x,y):
         #time.sleep(3)
         sp.browser.save_screenshot('test2.png')
         #time.sleep(1)
+        '''
         '''
         countertry=0
         while countertry<=2:
