@@ -139,6 +139,7 @@ def open_session_firefox2():
     options.add_argument('--proxy-server=%s' % PROXY)
     options.add_argument("--headless")
     options.add_argument("--window-size=1024x5000")
+    options.add_argument("--private")
     #options.add_argument("user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
     #options.add_argument('start-maximized')
     profile = webdriver.FirefoxProfile()
@@ -148,6 +149,7 @@ def open_session_firefox2():
     #profile.add_extension(current_path+"/ublock_origin-1.31.0-an+fx.xpi")
     profile.DEFAULT_PREFERENCES['frozen']["media.peerconnection.enabled" ] = False
     profile.set_preference("media.peerconnection.enabled", False)
+    profile.set_preference("browser.privatebrowsing.autostart", True)
     #profile.set_preference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
     #profile.set_preference("permissions.default.image", 2)
     profile.update_preferences()
