@@ -78,21 +78,7 @@ def pointer(x):
     fhandle.close()
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
-    while True:
-        sp.open_session_firefox2()
-        sp.browser.get("https://fr.hotels.com/")
-        sp.browser.save_screenshot('test0_.png')
-        try:
-            try:
-                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
-            except:
-                pass
-            time.sleep(0.5)
-            sp.browser.find_element_by_id('qf-0q-destination').clear()
-            break
-        except:
-            sp.browser.quit()
-            time.sleep(60)
+    sp.open_session_firefox2()
     for line in lines:
         try:
             sp.browser.get("https://fr.hotels.com/")
