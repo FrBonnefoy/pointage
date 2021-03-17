@@ -177,7 +177,7 @@ def original(x,y):
 def alternative(x,y):
     try:
         sp.browser.get("https://fr.hotels.com/promos-hotels/?intlid=HOME+%3A%3A+header_main_section")
-        sp.browser.save_screenshot('test0.png')
+        #sp.browser.save_screenshot('test0.png')
         x=x.strip()
         print(x)
 
@@ -203,7 +203,7 @@ def alternative(x,y):
         while True:
             try:
                 sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
-                time.sleep(3)
+                time.sleep(0.8)
                 sp.browser.save_screenshot('testtemp.png')
             except:
                 break
@@ -251,7 +251,7 @@ def alternative(x,y):
         except:
             pass
         #time.sleep(2)
-        sp.browser.save_screenshot('test3.png')
+        #sp.browser.save_screenshot('test3.png')
         # Obtain information on specific site
         #sp.browser.save_screenshot('test3.png')
         webpage=sp.browser.page_source
