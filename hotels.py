@@ -201,7 +201,11 @@ def alternative(x,y):
         time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
         #sp.browser.save_screenshot('test.png')
-        myElem = WebDriverWait(sp.browser, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/main/div[4]/div[1]/div[1]/div/div[1]/h1')))
+        while True:
+            try:
+                myElem = WebDriverWait(sp.browser, 3).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/main/div[4]/div[1]/div[1]/div/div[1]/h1')))
+            except:
+                sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
         #button_=sp.browser.find_element_by_xpath('/html/body/div[2]/main/div/div/div[1]/div/div[1]/div[2]/div[1]/div/form/div[4]/button')
         #sp.browser.execute_script("arguments[0].scrollIntoView();", button_)
         #button_.click()
