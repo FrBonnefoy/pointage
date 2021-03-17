@@ -78,7 +78,19 @@ def pointer(x):
     fhandle.close()
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
-    sp.open_session_firefox2()
+    while True:
+        sp.open_session_firefox2()
+        sp.browser.get("https://fr.hotels.com/")
+        try:
+            try:
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+            except:
+                pass
+            time.sleep(0.5)
+            sp.browser.find_element_by_id('qf-0q-destination').clear()
+        except:
+            sp.browser.quit()
+            time.sleep(2)
     for line in lines:
         try:
             sp.browser.get("https://fr.hotels.com/")
