@@ -182,6 +182,32 @@ def open_session():
     '''
     browser = webdriver.Chrome(options=chrome_options)
 
+
+def open_session2():
+    global browser
+    PROXY = "127.0.0.1:24002"
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--proxy-server=%s' % PROXY)
+    chrome_options.add_argument("--window-size=1920x1080")
+    chrome_options.add_argument('start-maximized')
+    chrome_options.add_argument('disable-infobars')
+    #chrome_options.add_extension('~/webrtc.crx')
+    '''
+    preferences = {
+    "webrtc.ip_handling_policy" : "disable_non_proxied_udp",
+    "webrtc.multiple_routes_enabled": False,
+    "webrtc.nonproxied_udp_enabled" : False,
+    'profile.managed_default_content_settings.javascript': 2,
+    "enforce-webrtc-ip-permission-check": True
+    }
+    chrome_options.add_experimental_option("prefs", preferences)
+    chrome_options.add_argument('--force-webrtc-ip-handling-policy')
+    '''
+    browser = webdriver.Chrome(options=chrome_options)
+
 def screenshot(x):
     browser.save_screenshot(x)
 
