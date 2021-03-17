@@ -200,10 +200,14 @@ def alternative(x,y):
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
         time.sleep(0.5)
         #sp.browser.save_screenshot('test.png')
-        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
-        time.sleep(1.5)
+        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').click()
+        time.sleep(0.5)
+        sp.browser.find_element_by_xpath('/html/body/div[2]/main/div/div/div[1]/div/div[1]/div[2]/div[1]/div/form/div[4]/button').click()
+        #sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
+        time.sleep(2)
         sp.browser.save_screenshot('test2.png')
         #time.sleep(1)
+        '''
         countertry=0
         while countertry<=2:
             try:
@@ -212,6 +216,7 @@ def alternative(x,y):
                 countertry=+1
             except:
                 break
+        '''
         try:
             sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             time.sleep(0.5)
@@ -220,7 +225,7 @@ def alternative(x,y):
         #time.sleep(2)
         #sp.browser.save_screenshot('test3.png')
         # Obtain information on specific site
-        sp.browser.save_screenshot('test3.png')
+        #sp.browser.save_screenshot('test3.png')
         webpage=sp.browser.page_source
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"class":"_2cVsY2"})
