@@ -188,17 +188,17 @@ def alternative(x,y):
         except:
             pass
 
-        time.sleep(0.5)
+        time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-in"]').clear()
-        time.sleep(0.5)
+        time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-out"]').clear()
-        time.sleep(0.5)
+        time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').click()
-        time.sleep(0.5)
+        time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').clear()
-        time.sleep(0.5)
+        time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
-        time.sleep(0.5)
+        time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
         #sp.browser.save_screenshot('test.png')
 
