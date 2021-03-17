@@ -66,7 +66,7 @@ def close_session():
 def original(x,y):
     try:
         sp.browser.get("https://fr.hotels.com/")
-        sp.browser.save_screenshot('test0.png')
+        #sp.browser.save_screenshot('test0.png')
         x=x.strip()
         print(x)
 
@@ -176,7 +176,7 @@ def original(x,y):
 
 def alternative(x,y):
     try:
-        sp.browser.get("https://fr.hotels.com/promos-hotels/?intlid=HOME+%3A%3A+header_main_section")
+        sp.browser.get("https://fr.hotels.com/")
         #sp.browser.save_screenshot('test0.png')
         x=x.strip()
         print(x)
@@ -189,24 +189,33 @@ def alternative(x,y):
             pass
 
         #time.sleep(0.3)
-        sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-in"]').clear()
+        #sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-in"]').clear()
+        #time.sleep(0.3)
+        #sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-out"]').clear()
+        #time.sleep(0.3)
+        #sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').click()
+        #time.sleep(0.3)
+        #sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').clear()
+        sp.browser.find_element_by_xpath('/html/body/div[2]/div/div/div/div/header/div/form/fieldset/div/input').clear()
         time.sleep(0.3)
-        sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-out"]').clear()
+        sp.browser.find_element_by_xpath('/html/body/div[2]/div/div/div/div/header/div/form/fieldset/div/input').send_keys(x)
         time.sleep(0.3)
-        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').click()
-        time.sleep(0.3)
-        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').clear()
-        time.sleep(0.3)
-        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
-        time.sleep(0.3)
+        sp.browser.find_element_by_xpath('/html/body/div/main/div[1]/div[2]/div/form/div[2]/div[3]/button').click()
+        time.sleep(0.8)
+        try:
+            sp.browser.find_element_by_xpath('/html/body/div/main/div[1]/div[2]/div/form/div[2]/div[3]/button').click()
+        except:
+            pass
+        '''
         tries=0
         while True:
             try:
-                sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
+                sp.browser.find_element_by_xpath('/html/body/div/main/div[1]/div[2]/div/form/div[2]/div[3]/button').click()
                 time.sleep(15)
                 #sp.browser.save_screenshot('testtemp.png')
             except:
                 break
+        '''
 
         '''
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
