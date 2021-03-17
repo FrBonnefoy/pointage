@@ -81,6 +81,7 @@ def pointer(x):
     while True:
         sp.open_session_firefox2()
         sp.browser.get("https://fr.hotels.com/")
+        sp.browser.save_screenshot('test0_.png')
         try:
             try:
                 sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
@@ -90,7 +91,7 @@ def pointer(x):
             sp.browser.find_element_by_id('qf-0q-destination').clear()
         except:
             sp.browser.quit()
-            time.sleep(2)
+            time.sleep(60)
     for line in lines:
         try:
             sp.browser.get("https://fr.hotels.com/")
