@@ -203,6 +203,7 @@ def alternative(x,y):
             try:
                 sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
                 time.sleep(1.5)
+                sp.browser.save_screenshot('testtemp.png')
             except:
                 break
 
