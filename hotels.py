@@ -78,7 +78,7 @@ def pointer(x):
     fhandle.close()
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
-    sp.open_session()
+    sp.open_session2()
     for line in lines:
         try:
             sp.browser.get("https://fr.hotels.com/")
