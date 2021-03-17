@@ -187,26 +187,26 @@ def alternative(x,y):
             sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
         except:
             pass
-        time.sleep(0.5)
-        try:
-            sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').clear()
-        except:
-            sp.browser.find_element_by_class_name('_3E17b1').clear()
+
         time.sleep(0.5)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-in"]').clear()
         time.sleep(0.5)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-out"]').clear()
         time.sleep(0.5)
-        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
-        time.sleep(0.5)
-        #sp.browser.save_screenshot('test.png')
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').click()
         time.sleep(0.5)
-        button_=sp.browser.find_element_by_xpath('/html/body/div[2]/main/div/div/div[1]/div/div[1]/div[2]/div[1]/div/form/div[4]/button')
-        sp.browser.execute_script("arguments[0].scrollIntoView();", button_)
-        button_.click()
+        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').clear()
+        time.sleep(0.5)
+        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
+        time.sleep(0.5)
+        sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
+        #sp.browser.save_screenshot('test.png')
+
+        #button_=sp.browser.find_element_by_xpath('/html/body/div[2]/main/div/div/div[1]/div/div[1]/div[2]/div[1]/div/form/div[4]/button')
+        #sp.browser.execute_script("arguments[0].scrollIntoView();", button_)
+        #button_.click()
         #sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
-        time.sleep(2)
+        time.sleep(3)
         sp.browser.save_screenshot('test2.png')
         #time.sleep(1)
         '''
