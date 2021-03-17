@@ -89,6 +89,7 @@ def pointer(x):
                 pass
             time.sleep(0.5)
             sp.browser.find_element_by_id('qf-0q-destination').clear()
+            break
         except:
             sp.browser.quit()
             time.sleep(60)
