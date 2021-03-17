@@ -148,7 +148,7 @@ def open_session_firefox2():
     #profile.add_extension(current_path+"/ublock_origin-1.31.0-an+fx.xpi")
     profile.DEFAULT_PREFERENCES['frozen']["media.peerconnection.enabled" ] = False
     profile.set_preference("media.peerconnection.enabled", False)
-    #profile.set_preference("general.useragent.override", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1")
+    profile.set_preference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36")
     #profile.set_preference("permissions.default.image", 2)
     profile.update_preferences()
     browser = webdriver.Firefox(profile,options=options)

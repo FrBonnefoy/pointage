@@ -93,7 +93,10 @@ def pointer(x):
             except:
                 pass
             time.sleep(0.5)
-            sp.browser.find_element_by_id('qf-0q-destination').clear()
+            try:
+                sp.browser.find_element_by_id('qf-0q-destination').clear()
+            except:
+                sp.browser.find_element_by_class_name('_3E17b1').clear()
             time.sleep(0.5)
             sp.browser.find_element_by_id('qf-0q-localised-check-in').clear()
             time.sleep(0.5)
