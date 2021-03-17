@@ -188,7 +188,7 @@ def alternative(x,y):
         except:
             pass
 
-        time.sleep(0.3)
+        #time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-in"]').clear()
         time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-localised-check-out"]').clear()
