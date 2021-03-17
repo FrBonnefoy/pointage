@@ -128,7 +128,7 @@ def open_session_firefox():
 
 def open_session_firefox2():
     global browser
-    PROXY="127.0.0.1:24001"
+    PROXY="127.0.0.1:24002"
     webdriver.DesiredCapabilities.FIREFOX['proxy'] = {
     "httpProxy": PROXY,
     "ftpProxy": PROXY,
