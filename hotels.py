@@ -204,7 +204,7 @@ def alternative(x,y):
         time.sleep(1.5)
         sp.browser.save_screenshot('test2.png')
         #time.sleep(1)
-        countertry
+        countertry=0
         while countertry<=2:
             try:
                 sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
