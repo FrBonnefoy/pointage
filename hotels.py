@@ -201,13 +201,15 @@ def alternative(x,y):
         time.sleep(0.5)
         #sp.browser.save_screenshot('test.png')
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
-        time.sleep(2)
+        time.sleep(1.5)
         sp.browser.save_screenshot('test2.png')
         #time.sleep(1)
-        while True:
+        countertry
+        while countertry<=2:
             try:
                 sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
                 time.sleep(1.5)
+                countertry=+1
             except:
                 break
         try:
@@ -218,6 +220,7 @@ def alternative(x,y):
         #time.sleep(2)
         #sp.browser.save_screenshot('test3.png')
         # Obtain information on specific site
+        sp.browser.save_screenshot('test3.png')
         webpage=sp.browser.page_source
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"class":"_2cVsY2"})
@@ -258,9 +261,9 @@ def alternative(x,y):
             sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
         except:
             pass
-        plastic = toy_soup2.find("span",{"class":"_2wKxGq _1clhIX"})
+        plastic = toy_soup2.findAll("span",{"class":"_2wKxGq _1clhIX"})
         try:
-            adrs = plastic.span.text
+            adrs = plastic[2].text.replace('\ue98d',"")
         except:
             adrs = ""
 
