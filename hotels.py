@@ -199,10 +199,11 @@ def alternative(x,y):
         time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
         time.sleep(0.3)
-        while True:
+        tries=0
+        while tries<2:
             try:
                 sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
-                time.sleep(1.5)
+                time.sleep(0.5)
                 sp.browser.save_screenshot('testtemp.png')
             except:
                 break
@@ -250,7 +251,7 @@ def alternative(x,y):
         except:
             pass
         #time.sleep(2)
-        #sp.browser.save_screenshot('test3.png')
+        sp.browser.save_screenshot('test3.png')
         # Obtain information on specific site
         #sp.browser.save_screenshot('test3.png')
         webpage=sp.browser.page_source
