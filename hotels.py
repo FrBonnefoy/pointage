@@ -264,7 +264,7 @@ def alternative(x,y):
         except:
             adrs = ""
 
-        varlist=[line,stars,chambres,vname,adrs]
+        varlist=[x,stars,chambres,vname,adrs]
         to_append=varlist
         s = pd.DataFrame(to_append).T
         s.to_csv(y, mode='a', header=False,sep='\t',index=False)
@@ -275,8 +275,8 @@ def alternative(x,y):
         chambres=''
         vname=''
         adrs=''
-        print(line, 'could not be completed','because of',ex)
-        varlist=[line,stars,chambres,vname,adrs]
+        print(x, 'could not be completed','because of',ex)
+        varlist=[x,stars,chambres,vname,adrs]
         to_append=varlist
         s = pd.DataFrame(to_append).T
         s.to_csv(y, mode='a', header=False,sep='\t',index=False)
