@@ -194,6 +194,7 @@ def open_session2():
     chrome_options.add_argument("--window-size=1920x1080")
     chrome_options.add_argument('start-maximized')
     chrome_options.add_argument('disable-infobars')
+    chrome_options.add_argument('--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"')
     #chrome_options.add_extension('~/webrtc.crx')
     '''
     preferences = {
