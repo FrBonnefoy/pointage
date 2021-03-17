@@ -200,13 +200,16 @@ def alternative(x,y):
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(x)
         time.sleep(0.3)
         sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
-        #sp.browser.save_screenshot('test.png')
-        while True:
-            try:
-                myElem = WebDriverWait(sp.browser, 3).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/main/div[4]/div[1]/div[1]/div/div[1]/h1')))
-            except:
-                sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
-        #button_=sp.browser.find_element_by_xpath('/html/body/div[2]/main/div/div/div[1]/div/div[1]/div[2]/div[1]/div/form/div[4]/button')
+        #sp.browser.save_screenshot('test.png')while True:
+        time.sleep(0.3)
+        try:
+            sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
+            myElem = WebDriverWait(sp.browser, 3).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/main/div[4]/div[1]/div[1]/div/div[1]/h1')))
+
+        except:
+            button_=sp.browser.find_element_by_class_name('cta cta-strong')
+            sp.browser.execute_script("arguments[0].scrollIntoView();", button_)
+            time.sleep(2)
         #sp.browser.execute_script("arguments[0].scrollIntoView();", button_)
         #button_.click()
         #sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').send_keys(Keys.ENTER)
