@@ -66,7 +66,7 @@ def close_session():
 def original(x,y):
     try:
         sp.browser.get("https://fr.hotels.com/")
-        #sp.browser.save_screenshot('test0.png')
+        sp.browser.save_screenshot('test0.png')
         x=x.strip()
         print(x)
 
@@ -107,6 +107,7 @@ def original(x,y):
         time.sleep(2)
         #sp.browser.save_screenshot('test3.png')
         # Obtain information on specific site
+        sp.browser.save_screenshot('test1.png')        
         webpage=sp.browser.page_source
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"id":"overview-section-4"})
@@ -196,7 +197,7 @@ def alternative(x,y):
         #sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').click()
         #time.sleep(0.3)
         #sp.browser.find_element_by_xpath('//*[@id="qf-1q-destination"]').clear()
-        sp.browser.find_element_by_xpath('/html/body/div[2]/div/div/div/div/header/div/form/fieldset/div/input').clear()
+        sp.browser.find_element_by_xpath('/html/body/div[2]/div/div/div/div/header/div/form/fieldset/div').clear()
         time.sleep(0.3)
         sp.browser.find_element_by_xpath('/html/body/div[2]/div/div/div/div/header/div/form/fieldset/div/input').send_keys(x)
         time.sleep(0.3)
