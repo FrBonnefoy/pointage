@@ -48,15 +48,6 @@ def req2(x):
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
     page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
 
-http_proxy2  = "http://127.0.0.1:24003"
-https_proxy2 = "https://127.0.0.1:24003"
-ftp_proxy2   = "ftp://127.0.0.1:24003"
-
-proxyDict2 = {
-              "http2"  : http_proxy,
-              "https2" : https_proxy,
-              "ftp2"   : ftp_proxy
-            }
 
 
 
@@ -253,6 +244,18 @@ def scroll():
 def change(x):
 	browser.get(x)
 
+
+http_proxy2  = "http://127.0.0.1:24003"
+https_proxy2 = "https://127.0.0.1:24003"
+ftp_proxy2   = "ftp://127.0.0.1:24003"
+
+proxyDict2 = {
+              "http2"  : http_proxy2,
+              "https2" : https_proxy2,
+              "ftp2"   : ftp_proxy2
+            }
+
+
 class google_search_site:
     def __init__(self,x,y):
         self.x = x
@@ -262,7 +265,7 @@ class google_search_site:
         #global page
         #global google_url
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-        page=requests.get(self.url,proxies=proxyDict,verify=False,headers=headers)
+        page=requests.get(self.url,proxies=proxyDict2,verify=False,headers=headers)
         description=scrape_light('div',{'class':'yuRUbf'})
         lecture=description.now()
         try:
