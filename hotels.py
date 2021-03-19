@@ -77,6 +77,7 @@ def original(y):
     sp.open_session_firefox2()
 
     for line in lines:
+        sp.browser.get("https://fr.hotels.com/")
         try:
             line=line.strip()
             print(line)
