@@ -152,7 +152,7 @@ def scrape_hotel_info(x,y):
             time.sleep(7)
             print('checking trip advisor...')
             x=x.strip().replace('"','')
-            cosito=sp.google_search_site(x,'site:tripadvisor.fr').request()
+            cosito=sp.google_search_site_trip(x,'site:tripadvisor.fr').request()
             try:
                 url=cosito
             except:
