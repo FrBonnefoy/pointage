@@ -68,7 +68,7 @@ def pointer2_0(x):
     tsx=time.strftime("%s", ts)
     namefile='hotels'+tsx+'.csv'
     fhandle=open(namefile,'w', encoding="utf-8")
-    headers = ("Hotel Name"+"\t"+'stars'+'\t'+"Capacities" + '\t' + "webname" + '\t' + "address\n")
+    headers = ("Hotel Name"+"\t"+'stars'+'\t'+"Capacities" + '\t' + "webname" + '\t' + "address" +'\t'+"url\n")
     fhandle.write(headers)
     fhandle.close()
     lines = open(x, 'r').readlines()
@@ -82,6 +82,10 @@ def scrape_hotel_info(x,y):
     try:
         x=x.strip().replace('"','')
         cosito=sp.google_search_site(x,'site:fr.hotels.com').request()
+        try:
+            url=cosito
+        except:
+            url=''
         sp.req(cosito)
         webpage=sp.page.text
         toy_soup2 = soup(webpage, "html.parser")
@@ -137,7 +141,7 @@ def scrape_hotel_info(x,y):
         except:
             adrs = ""
 
-        varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t','')]
+        varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t',''),str(url).replace('\t','')]
         to_append=varlist
         s = pd.DataFrame(to_append).T
         s.to_csv(y, mode='a', header=False,sep='\t',index=False)
@@ -152,15 +156,16 @@ def scrape_hotel_info(x,y):
             webpage=sp.page.text
             trip_soup = soup(webpage, "html.parser")
             stars_trip=trip_soup.findAll('svg',{'class':'AZd6Ff4E'})
-            capacity_trip=str(trip_soup.findAll('div',{'id':'ABOUT_TAB'}))
+            capacity_trip=trip_soup.findAll('div',{'id':'ABOUT_TAB'})
             name_trip=trip_soup.findAll('h1',{'id':'HEADING'})
             adrs_trip=trip_soup.findAll('span',{'class':'_3ErVArsu jke2_wbp'})
 
             try:
-                start=str(stars_trip[0]['title'])
+                stars=str(stars_trip[0]['title']).replace(' sur 5\xa0bulles','')
             except:
                 stars=''
             try:
+                chambres=str(capacity_trip)
                 roomsy=re.compile('NOMBRE DE CHAMBRES<\/div><div class="_1NHwuRzF">(\d+)')
                 chambres=roomsy.findall(chambres)[0]
             except:
@@ -173,7 +178,7 @@ def scrape_hotel_info(x,y):
                 adrs=adrs_trip[0].text
             except:
                 adrs=""
-            varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t','')]
+            varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t',''),str(url).replace('\t','')]
             to_append=varlist
             s = pd.DataFrame(to_append).T
             s.to_csv(y, mode='a', header=False,sep='\t',index=False)
@@ -185,8 +190,9 @@ def scrape_hotel_info(x,y):
             chambres=''
             vname=''
             adrs=''
+            url=''
             print(x, 'could not be completed','because of',ex)
-            varlist=[x,stars,chambres,vname,adrs]
+            varlist=[x,stars,chambres,vname,adrs,url]
             to_append=varlist
             s = pd.DataFrame(to_append).T
             s.to_csv(y, mode='a', header=False,sep='\t',index=False)
