@@ -76,10 +76,10 @@ def original(y):
     pbar=tqdm(total=len(lines))
     sp.open_session_firefox2()
 
-    for x in lines:
+    for line in lines:
         try:
-            x=x.strip()
-            print(x)
+            line=line.strip()
+            print(line)
 
             #Manipulate browser in order to obtain individual pages
             time.sleep(0.5)
