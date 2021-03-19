@@ -136,7 +136,7 @@ def scrape_hotel_info(x,y):
         except:
             adrs = ""
 
-        varlist=[x,stars,chambres,vname,adrs]
+        varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t','')]
         to_append=varlist
         s = pd.DataFrame(to_append).T
         s.to_csv(y, mode='a', header=False,sep='\t',index=False)
