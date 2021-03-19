@@ -46,7 +46,21 @@ def req2(x):
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
     page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
 
+http_proxy2  = "http://127.0.0.1:24003"
+https_proxy2 = "https://127.0.0.1:24003"
+ftp_proxy2   = "ftp://127.0.0.1:24003"
 
+proxyDict2 = {
+              "http2"  : http_proxy,
+              "https2" : https_proxy,
+              "ftp2"   : ftp_proxy
+            }
+
+
+def req_google(x):
+    global page
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
 
 def help():
 
