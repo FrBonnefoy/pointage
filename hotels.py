@@ -74,6 +74,7 @@ def pointer2_0(x):
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
     for line in lines:
+        print(line)
         scrape_hotel_info(line,namefile)
 
 def scrape_hotel_info(x,y):
