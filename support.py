@@ -282,6 +282,32 @@ class google_search_site:
         return google_url
 
 
+class google_search_site_trip:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        self.url='https://www.google.com/search?q='+quote(self.x)+quote(' ')+quote(self.y)
+    def request(self):
+        global page
+        global google_url
+        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+        req2(self.url)
+        description=scrape_light('div',{'class':'yuRUbf'})
+        lecture=description.now()
+        tempurls=[]
+        for link in lecture:
+            try:
+                tempurls.append(link.a['href'])
+            except:
+                pass
+        final_url=[x for x in tempurls if 'tripadvisor.fr' in x]
+        try:
+            google_url=final_url[0]
+        except:
+            google_url=""
+        return google_url
+
+
 class scrape:
     def __init__(self,x,y=None):
         self.x = x
