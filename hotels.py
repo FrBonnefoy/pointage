@@ -101,7 +101,7 @@ def original(y):
             counter=0
             while True:
                 try:
-                    if counter<=10
+                    if counter<=10:
                         counter=+1
                         browser.find_element_by_id('qf-0q-destination').send_keys(Keys.ENTER)
                         time.sleep(1)
