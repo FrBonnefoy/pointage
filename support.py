@@ -59,19 +59,7 @@ proxyDict2 = {
             }
 
 
-def req_google(x):
-    global page
-    global google_url
 
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-    page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
-    description=scrape_light('div',{'class':'yuRUbf'})
-    lecture=description.now()
-    try:
-        google_url=lecture[0].a['href']
-    except:
-        google_url=""
-    return google_url
 
 def help():
 
@@ -271,7 +259,17 @@ class google_search_site:
         self.y = y
         self.url='https://www.google.com/search?q='+quote(self.x)+quote(' ')+quote(self.y)
     def request(self):
-        req_google(self.url)
+        #global page
+        #global google_url
+        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+        page=requests.get(self.url,proxies=proxyDict,verify=False,headers=headers)
+        description=scrape_light('div',{'class':'yuRUbf'})
+        lecture=description.now()
+        try:
+            google_url=lecture[0].a['href']
+        except:
+            google_url=""
+
 
 
 class scrape:
