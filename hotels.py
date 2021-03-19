@@ -152,6 +152,10 @@ def scrape_hotel_info(x,y):
             time.sleep(7)
             x=x.strip().replace('"','')
             cosito=sp.google_search_site(x,'site:tripadvisor.fr').request()
+            try:
+                url=cosito
+            except:
+                url=''
             sp.req(cosito)
             webpage=sp.page.text
             trip_soup = soup(webpage, "html.parser")
