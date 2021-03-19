@@ -143,18 +143,55 @@ def scrape_hotel_info(x,y):
         s.to_csv(y, mode='a', header=False,sep='\t',index=False)
         #time.sleep(1)
         pbar.update(1)
-    except Exception as ex:
-        stars=''
-        chambres=''
-        vname=''
-        adrs=''
-        print(x, 'could not be completed','because of',ex)
-        varlist=[x,stars,chambres,vname,adrs]
-        to_append=varlist
-        s = pd.DataFrame(to_append).T
-        s.to_csv(y, mode='a', header=False,sep='\t',index=False)
-        #time.sleep(1)
-        pbar.update(1)
+    except:
+        try:
+            time.sleep(7)
+            x=x.strip().replace('"','')
+            cosito=sp.google_search_site(x,'site:tripadvisor.fr').request()
+            sp.req(cosito)
+            webpage=sp.page.text
+            trip_soup = soup(webpage, "html.parser")
+            stars_trip=trip_soup.findAll('svg',{'class':'AZd6Ff4E'})
+            capacity_trip=str(trip_soup.findAll('div',{'id':'ABOUT_TAB'}))
+            name_trip=trip_soup.findAll('h1',{'id':'HEADING'})
+            adrs_trip=trip_soup.findAll('span',{'class':'_3ErVArsu jke2_wbp'})
+
+            try:
+                start=str(stars_trip[0]['title'])
+            except:
+                stars=''
+            try:
+                roomsy=re.compile('NOMBRE DE CHAMBRES<\/div><div class="_1NHwuRzF">(\d+)')
+                chambres=roomsy.findall(chambres)[0]
+            except:
+                chambres=''
+            try:
+                vname=name_trip[0].text
+            except:
+                vname=''
+            try:
+                adrs=adrs_trip[0].text
+            except:
+                adrs=""
+            varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t','')]
+            to_append=varlist
+            s = pd.DataFrame(to_append).T
+            s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+            #time.sleep(1)
+            pbar.update(1)
+
+        except Exception as ex:
+            stars=''
+            chambres=''
+            vname=''
+            adrs=''
+            print(x, 'could not be completed','because of',ex)
+            varlist=[x,stars,chambres,vname,adrs]
+            to_append=varlist
+            s = pd.DataFrame(to_append).T
+            s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+            #time.sleep(1)
+            pbar.update(1)
 
 
 # Read lines and put them into a list
