@@ -99,6 +99,7 @@ def original(x,y):
                 time.sleep(0.5)
             except:
                 break
+        sp.browser.save_screenshot('test1.png')
         try:
             sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             time.sleep(0.5)
@@ -107,7 +108,7 @@ def original(x,y):
         time.sleep(2)
         #sp.browser.save_screenshot('test3.png')
         # Obtain information on specific site
-        sp.browser.save_screenshot('test1.png')        
+        sp.browser.save_screenshot('test2.png')
         webpage=sp.browser.page_source
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"id":"overview-section-4"})
