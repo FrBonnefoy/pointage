@@ -82,7 +82,7 @@ def scrape_hotel_info(x,y):
     try:
         x=x.strip().replace('"','')
         cosito=sp.google_search_site(x,'site:hotels.com').request()
-        sp.req2(cosito)
+        sp.req(cosito)
         webpage=sp.page.text
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"id":"overview-section-4"})
