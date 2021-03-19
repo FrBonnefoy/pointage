@@ -269,7 +269,7 @@ class google_search_site:
             google_url=lecture[0].a['href']
         except:
             google_url=""
-
+        return google_url
 
 
 class scrape:
