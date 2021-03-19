@@ -63,6 +63,7 @@ def close_session():
     browser.close()
 
 def pointer2_0(x):
+    global pbar
     ts = time.gmtime()
     tsx=time.strftime("%s", ts)
     namefile='hotels'+tsx+'.csv'
