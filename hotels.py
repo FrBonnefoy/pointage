@@ -78,6 +78,7 @@ def original(y):
 
     for line in lines:
         sp.browser.get("https://fr.hotels.com/")
+        sp.browser.save_screenshot('test0_original.png')
         try:
             line=line.strip()
             print(line)
@@ -99,6 +100,7 @@ def original(y):
             time.sleep(0.5)
             sp.browser.find_element_by_css_selector('.cont-hd-alt.widget-query-heading').click()
             time.sleep(0.5)
+            sp.browser.save_screenshot('test1_original.png')
             counter=0
             while True:
                 try:
@@ -118,6 +120,7 @@ def original(y):
             time.sleep(0.5)
 
             # Obtain information on specific site
+            sp.browser.save_screenshot('test2_original.png')
             webpage=sp.browser.page_source
             toy_soup2 = soup(webpage, "html.parser")
             gold=toy_soup2.find("div",{"id":"overview-section-4"})
