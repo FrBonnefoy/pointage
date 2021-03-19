@@ -84,40 +84,40 @@ def original(y):
             #Manipulate browser in order to obtain individual pages
             time.sleep(0.5)
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             except:
                 pass
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-destination').clear()
+            sp.browser.find_element_by_id('qf-0q-destination').clear()
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-localised-check-in').clear()
+            sp.browser.find_element_by_id('qf-0q-localised-check-in').clear()
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-localised-check-out').clear()
+            sp.browser.find_element_by_id('qf-0q-localised-check-out').clear()
             time.sleep(0.5)
-            browser.find_element_by_id('qf-0q-destination').send_keys(line)
+            sp.browser.find_element_by_id('qf-0q-destination').send_keys(line)
             time.sleep(0.5)
-            browser.find_element_by_css_selector('.cont-hd-alt.widget-query-heading').click()
+            sp.browser.find_element_by_css_selector('.cont-hd-alt.widget-query-heading').click()
             time.sleep(0.5)
             counter=0
             while True:
                 try:
                     if counter<=10:
                         counter=+1
-                        browser.find_element_by_id('qf-0q-destination').send_keys(Keys.ENTER)
+                        sp.browser.find_element_by_id('qf-0q-destination').send_keys(Keys.ENTER)
                         time.sleep(1)
                     else:
                         break
                 except:
                     break
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
                 time.sleep(0.5)
             except:
                 pass
             time.sleep(0.5)
 
             # Obtain information on specific site
-            webpage=browser.page_source
+            webpage=sp.browser.page_source
             toy_soup2 = soup(webpage, "html.parser")
             gold=toy_soup2.find("div",{"id":"overview-section-4"})
             gold = str(gold)
@@ -129,7 +129,7 @@ def original(y):
             except:
                 chambres=''
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             except:
                 pass
             silver=toy_soup2.find("span",{"class":"star-rating-text star-rating-text-strong widget-star-rating-overlay widget-tooltip widget-tooltip-responsive widget-tooltip-ignore-touch"})
@@ -154,7 +154,7 @@ def original(y):
             except:
                 vname = ""
             try:
-                browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
             except:
                 pass
             plastic = toy_soup2.find("span",{"class":"postal-addr"})
