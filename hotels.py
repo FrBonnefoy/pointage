@@ -74,7 +74,7 @@ def pointer2_0(x):
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
     for line in lines:
-        time.sleep(2)
+        time.sleep(5)
         print(line.strip())
         scrape_hotel_info(line,namefile)
 
@@ -82,7 +82,7 @@ def scrape_hotel_info(x,y):
     try:
         x=x.strip().replace('"','')
         cosito=sp.google_search_site(x,'site:hotels.com').request()
-        sp.req(cosito)
+        sp.req2(cosito)
         webpage=sp.page.text
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"id":"overview-section-4"})
