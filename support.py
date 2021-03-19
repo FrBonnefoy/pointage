@@ -268,8 +268,15 @@ class google_search_site:
         req2(self.url)
         description=scrape_light('div',{'class':'yuRUbf'})
         lecture=description.now()
+        tempurls=[]
+        for link in lecture:
+            try:
+                tempurls.append(link.a['href'])
+            except:
+                pass
+        final_url=[x for x in tempurls if '//fr' in x]
         try:
-            google_url=lecture[0].a['href']
+            google_url=final_url[0]
         except:
             google_url=""
         return google_url
