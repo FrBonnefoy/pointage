@@ -20,6 +20,8 @@ from xlsxwriter.workbook import Workbook
 import pandas as pd
 from IPython.display import display
 import re
+from urllib.parse import quote
+
 current_path=os.getcwd()
 
 
@@ -263,6 +265,13 @@ def scroll():
 def change(x):
 	browser.get(x)
 
+class google_search_site:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        self.url='https://www.google.com/search?q='+quote(self.x)+quote(' ')+quote(self.y)
+    def request(self):
+        req_google(self.url)
 
 
 class scrape:
