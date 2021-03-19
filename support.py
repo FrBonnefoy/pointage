@@ -69,7 +69,7 @@ def req_google(x):
         google_url=lecture[0].a['href']
     except:
         google_url=""
-
+    return google_url
 
 def help():
 
