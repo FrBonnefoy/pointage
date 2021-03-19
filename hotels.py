@@ -79,6 +79,7 @@ def pointer2_0(x):
 
 def scrape_hotel_info(x,y):
     try:
+        x=x.strip().replace('"','')
         cosito=sp.google_search_site(x,'site:hotels.com').request()
         sp.req(cosito)
         webpage=sp.page.text
