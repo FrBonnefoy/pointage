@@ -23,7 +23,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from pointage import support as sp
-
+from random import randint
 
 #Define open_session
 
@@ -74,7 +74,7 @@ def pointer2_0(x):
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
     for line in lines:
-        time.sleep(8)
+        time.sleep(randint(7,12))
         print(line.strip())
         scrape_hotel_info(line,namefile)
 
@@ -149,7 +149,7 @@ def scrape_hotel_info(x,y):
         pbar.update(1)
     except:
         try:
-            time.sleep(7)
+            time.sleep(randint(7,12))
             print('checking trip advisor...')
             x=x.strip().replace('"','')
             cosito=sp.google_search_site_trip(x,'site:tripadvisor.fr').request()
