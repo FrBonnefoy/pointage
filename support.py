@@ -276,7 +276,7 @@ class google_search_site:
                     }
 
 
-        page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
+        page=requests.get(self.url,proxies=proxyDict,verify=False,headers=headers)
         description=scrape_light('div',{'class':'yuRUbf'})
         lecture=description.now()
         tempurls=[]
@@ -313,7 +313,7 @@ class google_search_site_trip:
                     }
 
 
-        page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
+        page=requests.get(self.url,proxies=proxyDict,verify=False,headers=headers)
         description=scrape_light('div',{'class':'yuRUbf'})
         lecture=description.now()
         tempurls=[]
