@@ -5,7 +5,7 @@ import glob
 
 def fusion(filename):
     result = glob.glob('*.csv')
-    temp_result=[x for x in result if 'hotels16165' not in x and 'final_' not in x]
+    temp_result=[x for x in result if 'hotels16' not in x and 'final_' not in x]
     main_csv=temp_result[0]
     temp_result=[x for x in result if 'hotels16165' in x]
     alter_csv=temp_result[0]
