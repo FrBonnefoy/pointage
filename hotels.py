@@ -86,7 +86,7 @@ def scrape_hotel_info(x,y):
             url=cosito
         except:
             url=''
-        sp.req(cosito)
+        sp.req2(cosito)
         webpage=sp.page.text
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"id":"overview-section-4"})
@@ -157,7 +157,7 @@ def scrape_hotel_info(x,y):
                 url=cosito
             except:
                 url=''
-            sp.req(cosito)
+            sp.req2(cosito)
             webpage=sp.page.text
             trip_soup = soup(webpage, "html.parser")
             stars_trip=trip_soup.findAll('svg',{'class':'AZd6Ff4E'})
