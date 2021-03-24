@@ -260,7 +260,7 @@ class google_search_site:
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        self.url='https://webcache.googleusercontent.com/search?q=cache:'+quote(self.x)+quote(' ')+quote(self.y)
+        self.url='https://duckduckgo.com/?q='+quote(self.x)+quote(' ')+quote(self.y)
     def request(self):
         global page
         global google_url
@@ -277,7 +277,7 @@ class google_search_site:
 
 
         page=requests.get(self.url,proxies=proxyDict,verify=False,headers=headers)
-        description=scrape_light('div',{'class':'yuRUbf'})
+        description=scrape_light('a',{'class':'result__a'})
         lecture=description.now()
         tempurls=[]
         for link in lecture:
