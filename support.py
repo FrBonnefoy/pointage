@@ -297,7 +297,7 @@ class google_search_site_trip:
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        self.url='https://webcache.googleusercontent.com/search?q=cache:'+quote(self.x)+quote(' ')+quote(self.y)
+        self.url='https://www.bing.com/search?q='+quote(self.x)+quote(' ')+quote(self.y)
     def request(self):
         global page
         global google_url
