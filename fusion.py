@@ -7,7 +7,7 @@ def fusion(filename):
     result = glob.glob('*.csv')
     temp_result=[x for x in result if 'hotels16' not in x and 'final_' not in x]
     main_csv=temp_result[0]
-    temp_result=[x for x in result if 'hotels16165' in x]
+    temp_result=[x for x in result if 'hotels16' in x]
     alter_csv=temp_result[0]
     main_pandas=sp.pd.read_csv(main_csv,sep='\t',encoding='utf-8')
     alter_pandas=sp.pd.read_csv(alter_csv,sep='\t',encoding='utf-8')
