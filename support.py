@@ -277,12 +277,12 @@ class google_search_site:
 
 
         page=requests.get(self.url,proxies=proxyDict,verify=False,headers=headers)
-        description=scrape_light('a',{'class':'result__a'})
+        description=scrape_light('li',{'class':'b_algo'})
         lecture=description.now()
         tempurls=[]
         for link in lecture:
             try:
-                tempurls.append(link.a['href'])
+                tempurls.append(link.h2.a['href'])
             except:
                 pass
         final_url=[x for x in tempurls if '//fr' in x]
@@ -314,12 +314,12 @@ class google_search_site_trip:
 
 
         page=requests.get(self.url,proxies=proxyDict,verify=False,headers=headers)
-        description=scrape_light('div',{'class':'yuRUbf'})
+        description=scrape_light('li',{'class':'b_algo'})
         lecture=description.now()
         tempurls=[]
         for link in lecture:
             try:
-                tempurls.append(link.a['href'])
+                tempurls.append(link.h2.a['href'])
             except:
                 pass
         final_url=[x for x in tempurls if 'tripadvisor.fr' in x]
