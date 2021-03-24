@@ -290,7 +290,7 @@ class google_search_site_trip:
     def request(self):
         global page
         global google_url
-        headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36", 'referer':'https://www.google.com/' }
+        headers = {'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36", 'referer':'https://www.google.com/' }
         req2(self.url)
         description=scrape_light('div',{'class':'yuRUbf'})
         lecture=description.now()
