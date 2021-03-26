@@ -75,19 +75,22 @@ def pointer2_0(x):
     lines = open(x, 'r').readlines()
     pbar=tqdm(total=len(lines))
     for line in lines:
-        time.sleep(randint(7,12))
+        time.sleep(randint(2,5))
         print(line.strip())
         scrape_hotel_info(line,namefile)
 
 def scrape_hotel_info(x,y):
     try:
         x=x.strip().replace('"','')
-        cosito=sp.google_search_site(x,'site:fr.hotels.com').request()
+        cosito=cs.custom_search(x)
+        cosito.request()
+
         try:
-            url=cosito
+            url=cosito.hotels
         except:
             url=''
-        sp.req(cosito)
+
+        sp.req2(cosito.hotels)
         webpage=sp.page.text
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"id":"overview-section-4"})
@@ -150,15 +153,11 @@ def scrape_hotel_info(x,y):
         pbar.update(1)
     except:
         try:
-            time.sleep(randint(7,12))
-            print('checking trip advisor...')
-            x=x.strip().replace('"','')
-            cosito=sp.google_search_site_trip(x,'site:tripadvisor.fr').request()
             try:
-                url=cosito
+                url=cosito.tripadvisor
             except:
                 url=''
-            sp.req2(cosito)
+            sp.req2(cosito.tripadvisor)
             webpage=sp.page.text
             trip_soup = soup(webpage, "html.parser")
             stars_trip=trip_soup.findAll('svg',{'class':'AZd6Ff4E'})
