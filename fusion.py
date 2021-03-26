@@ -4,7 +4,16 @@ from customsearch import geocode as gc
 import os
 import glob
 
-def fusion(filename):
+class branding():
+    def __init__(self,x,y):
+        self.candidates=x
+        self.name=y
+        self.brand=None
+        for z in self.candidates:
+            if z.lower() in self.name.lower():
+                self.brand=z
+
+def fusion(filename,brands):
     result = glob.glob('*.csv')
     temp_result=[x for x in result if 'hotels16' not in x and 'final_' not in x]
     main_csv=temp_result[0]
@@ -21,12 +30,42 @@ def fusion(filename):
     final_pandas.capacité.fillna(final_pandas.Capacities, inplace=True)
     final_pandas.etoiles.fillna(final_pandas.stars, inplace=True)
     final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
+
     del final_pandas['Capacities']
     del final_pandas['stars']
     final_pandas=final_pandas.rename(columns={'url_x':'url_original'})
     final_pandas=final_pandas.rename(columns={'webname':'external_name'})
     final_pandas=final_pandas.rename(columns={'address':'external_adresse'})
     final_pandas=final_pandas.rename(columns={'url_y':'external_url'})
+
+    brand_pandas=final_pandas['nom']
+    brand_pandas=brand_pandas.to_frame()
+    brand_pandas['BRAND'] = brand_pandas.apply(lambda x: branding(brands,x['nom']).brand, axis=1)
+
+    final_pandas=final_pandas.merge(brand_pandas, on='nom',how='left')
+
+    geo_pandas=final_pandas['adress']
+    geo_pandas=geo_pandas.to_frame()
+    geo_pandas['data'] = geo_pandas.apply(lambda x: gc.searcher(x['adress']).data, axis=1)
+    geo_pandas['street_number'] = geo_pandas.apply(lambda x: gc.parser(x['data']).street_number, axis=1)
+    geo_pandas['neighborhood'] = geo_pandas.apply(lambda x: gc.parser(x['data']).neighborhood, axis=1)
+    geo_pandas['locality'] = geo_pandas.apply(lambda x: gc.parser(x['data']).locality, axis=1)
+    geo_pandas['aa2'] = geo_pandas.apply(lambda x: gc.parser(x['data']).aa2, axis=1)
+    geo_pandas['aa1'] = geo_pandas.apply(lambda x: gc.parser(x['data']).aa1, axis=1)
+    geo_pandas['country'] = geo_pandas.apply(lambda x: gc.parser(x['data']).country, axis=1)
+    geo_pandas['code_postal'] = geo_pandas.apply(lambda x: gc.parser(x['data']).code_postal, axis=1)
+    geo_pandas['lat'] = geo_pandas.apply(lambda x: gc.parser(x['data']).lat, axis=1)
+    geo_pandas['lng'] = geo_pandas.apply(lambda x: gc.parser(x['data']).lng, axis=1)
+    geo_pandas['bounds'] = geo_pandas.apply(lambda x: gc.parser(x['data']).bounds, axis=1)
+    geo_pandas['viewport'] = geo_pandas.apply(lambda x: gc.parser(x['data']).viewport, axis=1)
+    geo_pandas['formatted_address'] = geo_pandas.apply(lambda x: gc.parser(x['data']).faddress, axis=1)
+    geo_pandas['id'] = geo_pandas.apply(lambda x: gc.parser(x['data']).id, axis=1)
+    geo_pandas['UE'] = geo_pandas.apply(lambda x: gc.parser(x['data']).ue, axis=1)
+    del geo_pandas['data']
+
+    final_pandas=final_pandas.merge(geo_pandas, on='adress',how='left')
+
+
     filenamexlsx='final_'+filename+'.xlsx'
     filenamecsv='final_'+filename+'.csv'
     final_pandas.to_excel(filenamexlsx, na_rep='', index=False)
