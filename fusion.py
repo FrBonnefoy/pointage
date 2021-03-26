@@ -29,7 +29,7 @@ def fusion(filename,brands):
     final_pandas=main_pandas.merge(alter_pandas, on='nom',how='left')
     final_pandas.capacité.fillna(final_pandas.Capacities, inplace=True)
     final_pandas.etoiles.fillna(final_pandas.stars, inplace=True)
-    final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
+
 
     del final_pandas['Capacities']
     del final_pandas['stars']
@@ -37,7 +37,8 @@ def fusion(filename,brands):
     final_pandas=final_pandas.rename(columns={'webname':'external_name'})
     final_pandas=final_pandas.rename(columns={'address':'external_adresse'})
     final_pandas=final_pandas.rename(columns={'url_y':'external_url'})
-
+    final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
+    
     brand_pandas=final_pandas['nom']
     brand_pandas=brand_pandas.to_frame()
     brand_pandas['BRAND'] = brand_pandas.apply(lambda x: branding(brands,x['nom']).brand, axis=1)
