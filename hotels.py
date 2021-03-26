@@ -24,6 +24,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from pointage import support as sp
 from random import randint
+from customsearch import customsearch as cs
 
 #Define open_session
 
