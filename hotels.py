@@ -125,7 +125,7 @@ def scrape_hotel_info(x,y):
         #time.sleep(1)
         pbar.update(1)
 
-    except Exception as e2
+    except Exception as e2:
         print(e2)
         print('checking hotels.com...')
         try:
