@@ -66,7 +66,7 @@ def fusion(filename,brands):
     print('Fetching location data...')
     for a_data in tqdm(geo_list):
         time.sleep(5)
-        a_data['data'] = a_data.apply(lambda x: searcher(x['adress']).data, axis=1)
+        a_data['data'] = a_data.apply(lambda x: gc.searcher(x['adress']).data, axis=1)
     geo_pandas=pd.concat(geo_list,ignore_index=True)
 
 
