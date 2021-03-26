@@ -19,6 +19,7 @@ def fusion(filename):
     final_pandas=main_pandas.merge(alter_pandas, on='nom',how='left')
     final_pandas.capacité.fillna(final_pandas.Capacities, inplace=True)
     final_pandas.etoiles.fillna(final_pandas.stars, inplace=True)
+    final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
     del final_pandas['Capacities']
     del final_pandas['stars']
     final_pandas=final_pandas.rename(columns={'url_x':'url_original'})
