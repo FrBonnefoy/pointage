@@ -65,12 +65,12 @@ def fusion(filename,brands):
     geo_list = np.vsplit(geo_pandas, chunk)
     print('Fetching location data...')
     for a_data in tqdm(geo_list):
-        time.sleep(10)
+        time.sleep(5)
         a_data['data'] = a_data.apply(lambda x: searcher(x['adress']).data, axis=1)
     geo_pandas=pd.concat(geo_list,ignore_index=True)
 
 
-    
+
     geo_pandas['street_number'] = geo_pandas.apply(lambda x: gc.parser(x['data']).street_number, axis=1)
     geo_pandas['neighborhood'] = geo_pandas.apply(lambda x: gc.parser(x['data']).neighborhood, axis=1)
     geo_pandas['locality'] = geo_pandas.apply(lambda x: gc.parser(x['data']).locality, axis=1)
