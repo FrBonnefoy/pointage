@@ -60,8 +60,8 @@ def fusion(filename,brands):
         if number % whole_number == 0:
             factors.append(whole_number)
 
-    filtered=[x for x in factors if x<=10]
-    chunk=max(filtered)
+    filtered=[x for x in factors if (number/x)<=10]
+    chunk=min(filtered)
     geo_list = np.vsplit(geo_pandas, chunk)
     print('Fetching location data...')
     for a_data in tqdm(geo_list):
