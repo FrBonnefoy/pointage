@@ -38,6 +38,8 @@ def fusion(filename,brands):
     final_pandas=final_pandas.rename(columns={'address':'external_adresse'})
     final_pandas=final_pandas.rename(columns={'url_y':'external_url'})
     final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
+    final_pandas['adress'] = final_pandas['adress'].astype(str)
+    final_pandas['nom'] = final_pandas['adress'].astype(str)
 
     brand_pandas=final_pandas['nom']
     brand_pandas=brand_pandas.to_frame()
