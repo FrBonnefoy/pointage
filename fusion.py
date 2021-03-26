@@ -3,6 +3,10 @@ from pointage import hotels as ho
 from customsearch import geocode as gc
 import os
 import glob
+import time
+from tqdm.notebook import tqdm
+import numpy as np
+import pandas as pd
 
 class branding():
     def __init__(self,x,y):
@@ -49,7 +53,24 @@ def fusion(filename,brands):
 
     geo_pandas=final_pandas['adress']
     geo_pandas=geo_pandas.to_frame()
-    geo_pandas['data'] = geo_pandas.apply(lambda x: gc.searcher(str(x['adress'])).data, axis=1)
+
+    factors=[]
+    number=len(geo_pandas.index)
+    for whole_number in range(1, number + 1):
+        if number % whole_number == 0:
+            factors.append(whole_number)
+
+    filtered=[x for x in factors if x<=10]
+    chunk=max(filtered)
+    geo_list = np.vsplit(geo_pandas, chunk)
+    print('Fetching location data...')
+    for a_data in tqdm(geo_list):
+        time.sleep(10)
+        a_data['data'] = a_data.apply(lambda x: searcher(x['adress']).data, axis=1)
+    geo_pandas=pd.concat(geo_list,ignore_index=True)
+
+
+    
     geo_pandas['street_number'] = geo_pandas.apply(lambda x: gc.parser(x['data']).street_number, axis=1)
     geo_pandas['neighborhood'] = geo_pandas.apply(lambda x: gc.parser(x['data']).neighborhood, axis=1)
     geo_pandas['locality'] = geo_pandas.apply(lambda x: gc.parser(x['data']).locality, axis=1)
