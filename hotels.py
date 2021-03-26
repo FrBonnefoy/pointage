@@ -153,6 +153,7 @@ def scrape_hotel_info(x,y):
         pbar.update(1)
     except:
         try:
+            print('checking tripadvisor...')
             try:
                 url=cosito.tripadvisor
             except:
