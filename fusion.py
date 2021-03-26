@@ -38,7 +38,7 @@ def fusion(filename,brands):
     final_pandas=final_pandas.rename(columns={'address':'external_adresse'})
     final_pandas=final_pandas.rename(columns={'url_y':'external_url'})
     final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
-    
+
     brand_pandas=final_pandas['nom']
     brand_pandas=brand_pandas.to_frame()
     brand_pandas['BRAND'] = brand_pandas.apply(lambda x: branding(brands,x['nom']).brand, axis=1)
@@ -47,7 +47,7 @@ def fusion(filename,brands):
 
     geo_pandas=final_pandas['adress']
     geo_pandas=geo_pandas.to_frame()
-    geo_pandas['data'] = geo_pandas.apply(lambda x: gc.searcher(x['adress']).data, axis=1)
+    geo_pandas['data'] = geo_pandas.apply(lambda x: gc.searcher(str(x['adress'])).data, axis=1)
     geo_pandas['street_number'] = geo_pandas.apply(lambda x: gc.parser(x['data']).street_number, axis=1)
     geo_pandas['neighborhood'] = geo_pandas.apply(lambda x: gc.parser(x['data']).neighborhood, axis=1)
     geo_pandas['locality'] = geo_pandas.apply(lambda x: gc.parser(x['data']).locality, axis=1)
