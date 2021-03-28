@@ -43,7 +43,7 @@ def fusion(filename,brands):
     final_pandas=final_pandas.rename(columns={'url_y':'external_url'})
     final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
     final_pandas['adress'] = final_pandas['adress'].astype(str)
-    final_pandas['adress'] = final_pandas['adress'].astype(str)
+    #final_pandas['adress'] = final_pandas['adress'].astype(str)
 
     brand_pandas=final_pandas['nom']
     brand_pandas=brand_pandas.to_frame()
@@ -65,7 +65,7 @@ def fusion(filename,brands):
     geo_list = np.vsplit(geo_pandas, chunk)
     print('Fetching location data...')
     for a_data in tqdm(geo_list):
-        time.sleep(5)
+        time.sleep(1)
         a_data['data'] = a_data.apply(lambda x: gc.searcher(x['adress']).data, axis=1)
     geo_pandas=pd.concat(geo_list,ignore_index=True)
 
@@ -88,7 +88,7 @@ def fusion(filename,brands):
     del geo_pandas['data']
 
     final_pandas=final_pandas.merge(geo_pandas, on='adress',how='left')
-
+    final_pandas=final_pandas.drop_duplicates()
 
     filenamexlsx='final_'+filename+'.xlsx'
     filenamecsv='final_'+filename+'.csv'
