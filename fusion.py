@@ -88,7 +88,9 @@ def fusion(filename,brands):
     del geo_pandas['data']
 
     final_pandas2=final_pandas.merge(geo_pandas, on='adress',how='left')
-    final_pandas2=final_pandas.drop_duplicates()
+    final_pandas2=final_pandas2.drop_duplicates('url_original')
+    final_pandas2=final_pandas2.reset_index(drop=True)
+
 
     filenamexlsx='final_'+filename+'.xlsx'
     filenamecsv='final_'+filename+'.csv'
