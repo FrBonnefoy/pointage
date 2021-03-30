@@ -87,10 +87,10 @@ def fusion(filename,brands):
     geo_pandas['UE'] = geo_pandas.apply(lambda x: gc.parser(x['data']).ue, axis=1)
     del geo_pandas['data']
 
-    final_pandas=final_pandas.merge(geo_pandas, on='adress',how='left')
-    final_pandas=final_pandas.drop_duplicates()
+    final_pandas2=final_pandas.merge(geo_pandas, on='adress',how='left')
+    final_pandas2=final_pandas.drop_duplicates()
 
     filenamexlsx='final_'+filename+'.xlsx'
     filenamecsv='final_'+filename+'.csv'
-    final_pandas.to_excel(filenamexlsx, na_rep='', index=False)
-    final_pandas.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
+    final_pandas2.to_excel(filenamexlsx, na_rep='', index=False)
+    final_pandas2.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
