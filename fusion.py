@@ -112,18 +112,21 @@ def fusion(filename,brands,mode=0):
         #main_pandas['nom']= main_pandas['nom'].str.strip()
         alter_pandas['nom']= alter_pandas['nom'].str.strip()
         final_pandas=alter_pandas
-        final_pandas.capacité.fillna(final_pandas.Capacities, inplace=True)
-        final_pandas.etoiles.fillna(final_pandas.stars, inplace=True)
+        #final_pandas.capacité.fillna(final_pandas.Capacities, inplace=True)
+        #final_pandas.etoiles.fillna(final_pandas.stars, inplace=True)
 
 
-        del final_pandas['Capacities']
-        del final_pandas['stars']
-        final_pandas=final_pandas.rename(columns={'url_x':'url_original'})
+        #del final_pandas['Capacities']
+        #del final_pandas['stars']
+
+        #final_pandas=final_pandas.rename(columns={'url_x':'url_original'})
+        final_pandas=final_pandas.rename(columns={'Capacities':'capacité'})
+        final_pandas=final_pandas.rename(columns={'webname':'external_name'})
         final_pandas=final_pandas.rename(columns={'webname':'external_name'})
         final_pandas=final_pandas.rename(columns={'address':'external_adresse'})
-        final_pandas=final_pandas.rename(columns={'url_y':'external_url'})
-        final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
-        final_pandas['adress'] = final_pandas['adress'].astype(str)
+        final_pandas=final_pandas.rename(columns={'url':'external_url'})
+        #final_pandas['adress'].fillna(final_pandas['external_adresse'],inplace=True)
+        final_pandas['external_adresse'] = final_pandas['external_adresse'].astype(str)
         #final_pandas['adress'] = final_pandas['adress'].astype(str)
 
         brand_pandas=final_pandas['nom']
@@ -132,7 +135,7 @@ def fusion(filename,brands,mode=0):
 
         final_pandas=final_pandas.merge(brand_pandas, on='nom',how='left')
 
-        geo_pandas=final_pandas['adress']
+        geo_pandas=final_pandas['external_adresse']
         geo_pandas=geo_pandas.to_frame()
 
         factors=[]
@@ -147,7 +150,7 @@ def fusion(filename,brands,mode=0):
         print('Fetching location data...')
         for a_data in tqdm(geo_list):
             time.sleep(1)
-            a_data['data'] = a_data.apply(lambda x: gc.searcher(x['adress']).data, axis=1)
+            a_data['data'] = a_data.apply(lambda x: gc.searcher(x['external_adresse']).data, axis=1)
         geo_pandas=pd.concat(geo_list,ignore_index=True)
 
 
