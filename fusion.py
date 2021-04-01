@@ -74,6 +74,7 @@ def fusion(filename,brands,mode=0):
 
 
         geo_pandas['street_number'] = geo_pandas.apply(lambda x: gc.parser(x['data']).street_number, axis=1)
+        geo_pandas['route'] = geo_pandas.apply(lambda x: gc.parser(x['data']).route, axis=1)
         geo_pandas['neighborhood'] = geo_pandas.apply(lambda x: gc.parser(x['data']).neighborhood, axis=1)
         geo_pandas['locality'] = geo_pandas.apply(lambda x: gc.parser(x['data']).locality, axis=1)
         geo_pandas['aa2'] = geo_pandas.apply(lambda x: gc.parser(x['data']).aa2, axis=1)
