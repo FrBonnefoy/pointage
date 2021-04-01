@@ -17,7 +17,9 @@ class branding():
             if z.lower() in self.name.lower():
                 self.brand=z
 
-def fusion(filename,brands):
+def fusion(filename,brands,mode=0):
+
+    if mode==0:
     result = glob.glob('*.csv')
     temp_result=[x for x in result if 'hotels16' not in x and 'final_' not in x]
     main_csv=temp_result[0]
