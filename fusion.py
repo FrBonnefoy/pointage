@@ -171,8 +171,8 @@ def fusion(filename,brands,mode=0):
         geo_pandas['UE'] = geo_pandas.apply(lambda x: gc.parser(x['data']).ue, axis=1)
         del geo_pandas['data']
 
-        final_pandas2=final_pandas.merge(geo_pandas, on='adress',how='left')
-        final_pandas2=final_pandas2.drop_duplicates('url_original')
+        final_pandas2=final_pandas.merge(geo_pandas, on='external_adresse',how='left')
+        final_pandas2=final_pandas2.drop_duplicates('external_url')
         final_pandas2=final_pandas2.reset_index(drop=True)
 
 
