@@ -112,7 +112,7 @@ def fusion(filename,brands,mode=0):
         alter_pandas['nom'] = alter_pandas['nom'].astype(str)
         #main_pandas['nom']= main_pandas['nom'].str.strip()
         alter_pandas['nom']= alter_pandas['nom'].str.strip()
-        final_pandas=alter_pandas
+        final_pandas=alter_pandas.drop_duplicates('nom')
         #final_pandas.capacité.fillna(final_pandas.Capacities, inplace=True)
         #final_pandas.etoiles.fillna(final_pandas.stars, inplace=True)
 
