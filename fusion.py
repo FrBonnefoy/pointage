@@ -172,7 +172,7 @@ def fusion(filename,brands,mode=0):
         del geo_pandas['data']
 
         final_pandas2=final_pandas.merge(geo_pandas, on='external_adresse',how='left')
-        final_pandas2=final_pandas2.drop_duplicates('external_url')
+        final_pandas2=final_pandas2.drop_duplicates('nom')
         final_pandas2=final_pandas2.reset_index(drop=True)
 
 
