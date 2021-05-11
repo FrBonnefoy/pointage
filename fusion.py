@@ -103,7 +103,7 @@ def fusion(filename,brands,mode=0):
         final_pandas2=final_pandas.merge(geo_pandas, on='adress',how='left')
         final_pandas2=final_pandas2.drop_duplicates('url_original')
         final_pandas2=final_pandas2.reset_index(drop=True)
-        final_pandas2['flag_pointage'] = final_pandas2.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
+        #final_pandas2['flag_pointage'] = final_pandas2.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
 
 
         filenamexlsx='final_'+filename+'.xlsx'
@@ -187,7 +187,7 @@ def fusion(filename,brands,mode=0):
         final_pandas2=final_pandas.merge(geo_pandas, on='external_adresse',how='left')
         final_pandas2=final_pandas2.drop_duplicates('nom')
         final_pandas2=final_pandas2.reset_index(drop=True)
-        final_pandas2['flag_pointage'] = final_pandas2.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
+        #final_pandas2['flag_pointage'] = final_pandas2.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
 
 
         filenamexlsx='final_'+filename+'.xlsx'
