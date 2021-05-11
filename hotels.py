@@ -91,7 +91,7 @@ def pointer3_0(x):
         print(line.strip())
         scrape_hotel_info(line,namefile)
      #booking_files = glob.glob(namefile)
-     pcsv=pd.read_csv(namefile, sep = '\t')
+    pcsv=pd.read_csv(namefile, sep = '\t')
     pcsv['flag_pointage'] = pcsv.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
     pcsv = pcsv.insert(0, 'flag_pointage_', pcsv['flag_pointage'])
     del pcsv['flag_pointage']
