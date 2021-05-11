@@ -105,11 +105,35 @@ def fusion(filename,brands,mode=0):
         final_pandas2=final_pandas2.reset_index(drop=True)
         #final_pandas2['flag_pointage'] = final_pandas2.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
 
+        def fillbrand(x):
+            if x is None:
+                return 'NO BRAND'
+            else:
+                return x
+
+        final_pandas2['BRAND'] = final_pandas2.apply(lambda x: fillbrand(x['BRAND']), axis = 1)
+
+        def fillcountry(x):
+            if x=='':
+                return 'COUNTRY NOT FOUND'
+            else:
+                return x
+        final_pandas2['country'] = final_pandas2.apply(lambda x: fillcountry(x['country']), axis = 1)
 
         filenamexlsx='final_'+filename+'.xlsx'
         filenamecsv='final_'+filename+'.csv'
-        final_pandas2.to_excel(filenamexlsx, na_rep='', index=False)
+
+        writer = pd.ExcelWriter(filenamexlsx)
+
+        table = pd.pivot_table(final_pandas2, values=['capacité'], index=['BRAND'], columns=['UE','country'],
+                    aggfunc=[np.count_nonzero, np.sum], fill_value=0, margins = True )
+
+        table.to_excel(writer,sheet_name='Summary')
+
+        final_pandas2.to_excel(writer, na_rep='', index=False, sheet_name='DATA')
         final_pandas2.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
+
+        
     if mode==1:
         result = glob.glob('*.csv')
         #temp_result=[x for x in result if 'hotels16' not in x and 'final_' not in x]
