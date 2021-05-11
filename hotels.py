@@ -25,6 +25,18 @@ from selenium.webdriver.common.keys import Keys
 from pointage import support as sp
 from random import randint
 from customsearch import customsearch as cs
+import jellyfish
+
+
+def flag(s1,s2):
+    try:
+        if jellyfish.jaro_winkler_similarity(s1,s2) > 0.75:
+            return "OK"
+        else:
+            return "CHECK"
+    except:
+        return "NaN"
+
 
 #Define open_session
 
@@ -63,7 +75,7 @@ def open_session_firefox():
 def close_session():
     browser.close()
 
-def pointer2_0(x):
+def pointer3_0(x):
     global pbar
     ts = time.gmtime()
     tsx=time.strftime("%s", ts)
@@ -78,6 +90,13 @@ def pointer2_0(x):
         time.sleep(randint(2,5))
         print(line.strip())
         scrape_hotel_info(line,namefile)
+     #booking_files = glob.glob(namefile)
+     pcsv=pd.read_csv(namefile, sep = '\t')
+    pcsv['flag_pointage'] = pcsv.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
+    pcsv = pcsv.insert(0, 'flag_pointage_', pcsv['flag_pointage'])
+    del pcsv['flag_pointage']
+    pcsv = pcsv.rename(columns={'flag_pointage_':'flag_pointage'})
+    pcsv.to_csv(filename, sep = '\t', index = False)
 
 def scrape_hotel_info(x,y):
     x=x.strip().replace('"','')
