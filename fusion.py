@@ -7,6 +7,7 @@ import time
 from tqdm.notebook import tqdm
 import numpy as np
 import pandas as pd
+import jellyfish
 
 class branding():
     def __init__(self,x,y):
@@ -16,6 +17,15 @@ class branding():
         for z in self.candidates:
             if z.lower() in self.name.lower():
                 self.brand=z
+
+def flag(s1,s2):
+    try:
+        if jellyfish.jaro_winkler_similarity(s1,s2) > 0.7:
+            return 1
+        else:
+            return 0
+    except:
+        return "NaN"
 
 def fusion(filename,brands,mode=0):
 
@@ -93,6 +103,7 @@ def fusion(filename,brands,mode=0):
         final_pandas2=final_pandas.merge(geo_pandas, on='adress',how='left')
         final_pandas2=final_pandas2.drop_duplicates('url_original')
         final_pandas2=final_pandas2.reset_index(drop=True)
+        final_pandas2['flag_pointage'] = final_pandas2.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
 
 
         filenamexlsx='final_'+filename+'.xlsx'
@@ -176,6 +187,7 @@ def fusion(filename,brands,mode=0):
         final_pandas2=final_pandas.merge(geo_pandas, on='external_adresse',how='left')
         final_pandas2=final_pandas2.drop_duplicates('nom')
         final_pandas2=final_pandas2.reset_index(drop=True)
+        final_pandas2['flag_pointage'] = final_pandas2.apply(lambda x: flag(x['nom'], x['external_name']) , axis=1 )
 
 
         filenamexlsx='final_'+filename+'.xlsx'
