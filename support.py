@@ -23,13 +23,20 @@ import re
 from urllib.parse import quote
 import random
 import gzip
+import sys
 
 current_path=os.getcwd()
 
 
 # List of user agents (for req2)
-with gzip.open('/opt/conda/lib/python3.8/pointage/'+'user_agents.txt.gz','rb') as f:
-    user_agents=f.readlines()
+for x in sys.path:
+    try:
+        with gzip.open(x+'/user_agents.txt.gz','rb') as f:
+            user_agents=f.readlines()
+            break
+
+    except:
+        pass
 user_agents=[x.decode('utf-8').strip() for x in user_agents]
 
 
