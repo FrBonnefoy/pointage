@@ -105,6 +105,154 @@ def scrape_hotel_info(x,y):
         cosito.request()
     except Exception as e:
         print(e)
+
+    #1st attempt hotels.com
+
+
+    print('checking hotels.com...')
+    try:
+        url=cosito.hotels
+    except:
+        url=''
+
+    try:
+        sp.req(url)
+        webpage=sp.page.text
+        toy_soup2 = soup(webpage, "html.parser")
+        gold=toy_soup2.find("div",{"id":"overview-section-4"})
+        if len(gold)<1:
+            gold=toy_soup2.find("div",{"class":"_2cVsY2"})
+        gold = str(gold)
+        chambres = re.findall(r"(\d+) chambres", gold)
+        if len(chambres)<1:
+            chambres = re.findall(r"(\d+) appartements", gold)
+        try:
+            chambres=chambres[0]
+        except:
+            chambres=''
+        try:
+            sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+        except:
+            pass
+        silver=toy_soup2.find("span",{"class":"star-rating-text star-rating-text-strong widget-star-rating-overlay widget-tooltip widget-tooltip-responsive widget-tooltip-ignore-touch"})
+        if len(silver)<1:
+            silver=toy_soup2.find("span",{"class":"_2dOcxA"})
+        silver2=toy_soup2.find("span",{"class":"star-rating-text widget-star-rating-overlay widget-tooltip widget-tooltip-responsive widget-tooltip-ignore-touch"})
+        try:
+            silver = str(silver)
+            silver2 = str(silver2)
+            stars = re.findall(r"(\d?\,?\d) étoiles", silver)
+            stars2 = re.findall(r"(\d?\,?\d) étoiles", silver2)
+            if len(stars)==0 and len(stars2)>0:
+                stars=stars2[0]
+            else:
+                stars=stars[0]
+        except:
+            stars=''
+        bronze = toy_soup2.find("h2")
+        if len(bronze)<1:
+            bronze = toy_soup2.find("div",{'class':'_2h6Jhd'})
+        try:
+            bronze=str(bronze)
+            bronze=bronze.replace("<h2>","")
+            bronze=bronze.replace("</h2>","")
+            vname = bronze
+        except:
+            vname = ""
+        try:
+            sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+        except:
+            pass
+        plastic = toy_soup2.find("span",{"class":"postal-addr"})
+        if len(plastic)<1:
+            plastic = toy_soup2.findAll("span",{"class":"_2wKxGq _1clhIX"})
+        try:
+            adrs = plastic.text
+        except:
+            adrs = ""
+
+
+        #Check if hotels.com returned valid information
+
+        if flag(x,vname)=='OK':
+
+            varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t',''),str(url).replace('\t','')]
+            to_append=varlist
+            s = pd.DataFrame(to_append).T
+            s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+            #time.sleep(1)
+            pbar.update(1)
+
+        else:
+
+            #Second attempt
+            print('checking hrs.com...')
+            try:
+                url=cosito.hrs
+            except:
+                url=''
+            sp.req(url)
+
+            description_rating=sp.scrape_light('span',{'class':'product--rating'})
+            lectura_rating=description.now()
+            sopa_stars=sp.soup(str(lectura_rating),'html.parser')
+            stars=sopa_stars.findAll('i',{'class':'icon--star'})
+            stars=str(len(stars))
+
+            description_feature=sp.scrape_light('p',{'class':'feature'})
+            lectura_feature=description_feature.now()
+            regex=re.compile('chambres (\d+)')
+            try:
+                chambres=regex.findall(str(lectura_feature[0]))[0]
+            except:
+                chambres=""
+
+            description_vname=sp.scrape_light('h1',{'class':'product--title'})
+            lecture_vname=description_vname.now()
+            try:
+                vname=lecture_vname[0].text.strip()
+            except:
+                vname=""
+
+            description_adrs=sp.scrape_light('span',{'class':'location-marker'})
+            lecture_adrs=description_adrs.now()
+            try:
+                adrs=' '.join(lecture_adrs[0].text.replace('\n','').split())
+            except:
+                adrs=""
+
+            if flag(x,vname)=='OK':
+
+                varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t',''),str(url).replace('\t','')]
+                to_append=varlist
+                s = pd.DataFrame(to_append).T
+                s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+                #time.sleep(1)
+                pbar.update(1)
+
+            else:
+
+                #Third attempt
+
+                print('agoda.com ...')
+
+                try:
+                    url=cosito.agoda
+                except:
+                    url=''
+                sp.req(url)
+                
+                search(query, num=1, start=0, stop=1, pause=5.0)
+
+
+
+
+
+
+
+
+
+
     try:
         print('checking tripadvisor...')
         try:

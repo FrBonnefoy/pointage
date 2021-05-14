@@ -21,8 +21,17 @@ import pandas as pd
 from IPython.display import display
 import re
 from urllib.parse import quote
+import randomn
+import gzip
 
 current_path=os.getcwd()
+
+
+# List of user agents (for req2)
+with gzip.open('user_agents.txt.gz','rb') as f:
+    user_agents=f.readlines()
+user_agents=[x.decode('utf-8').strip() for x in user_agents]
+
 
 
 #Define proxies
@@ -45,7 +54,12 @@ def req(x):
 #Define requests function
 def req2(x):
     global page
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    default_user='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+    try:
+        user_agent=random.choice(user_agents)
+    except:
+        user_agent=default_user
+    headers = {'User-Agent': user_agent}
     page=requests.get(x,proxies=proxyDict,verify=False,headers=headers)
 
 
