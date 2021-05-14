@@ -26,6 +26,7 @@ from pointage import support as sp
 from random import randint
 from customsearch import customsearch as cs
 import jellyfish
+import urllib
 
 
 def flag(s1,s2):
@@ -116,7 +117,7 @@ def scrape_hotel_info(x,y):
         url=''
 
     try:
-        sp.req(url)
+        sp.req2(url)
         webpage=sp.page.text
         toy_soup2 = soup(webpage, "html.parser")
         gold=toy_soup2.find("div",{"id":"overview-section-4"})
@@ -191,7 +192,7 @@ def scrape_hotel_info(x,y):
                 url=cosito.hrs
             except:
                 url=''
-            sp.req(url)
+            sp.req2(url)
 
             description_rating=sp.scrape_light('span',{'class':'product--rating'})
             lectura_rating=description.now()
@@ -234,15 +235,34 @@ def scrape_hotel_info(x,y):
 
                 #Third attempt
 
-                print('agoda.com ...')
+                print('trip.com ...')
 
+                #Getting url
+
+                time.sleep(2)
+                query_trip=x
+                query_trip=query_trip+" site:trip.com"
+                f ={'q':query_trip}
+                sp.req2('https://www.google.com/search?'+urllib.parse.urlencode(f))
+                sopa_trip=sp.soup(sp.page.text,'html.parser')
+                regex_trip=re.compile('url=(.+/)&amp')
+                temp_trip=[]
+                for x in url_trip:
+                    x=str(x)
+                    try:
+                        temp_trip.append(regex_trip.findall(x)[0])
+                    except:
+                        pass
                 try:
-                    url=cosito.agoda
+                    temp_trip=[x for x in temp_trip if 'trip.com/hotels/' in x and '-detail-' in x]
+                    url=temp_trip[0]
                 except:
-                    url=''
-                sp.req(url)
+                    url=""
+
+
+                sp.req2(url)
+
                 
-                search(query, num=1, start=0, stop=1, pause=5.0)
 
 
 
