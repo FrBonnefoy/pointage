@@ -31,10 +31,9 @@ current_path=os.getcwd()
 # List of user agents (for req2)
 for x in sys.path:
     try:
-        with gzip.open(x+'/user_agents.txt.gz','rb') as f:
+        with gzip.open(x+'/pointage/user_agents.txt.gz','rb') as f:
             user_agents=f.readlines()
             break
-
     except:
         pass
 user_agents=[x.decode('utf-8').strip() for x in user_agents]
