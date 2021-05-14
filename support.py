@@ -28,7 +28,7 @@ current_path=os.getcwd()
 
 
 # List of user agents (for req2)
-with gzip.open(current_path+'user_agents.txt.gz','rb') as f:
+with gzip.open('/opt/conda/lib/python3.8/pointage/'+'user_agents.txt.gz','rb') as f:
     user_agents=f.readlines()
 user_agents=[x.decode('utf-8').strip() for x in user_agents]
 
