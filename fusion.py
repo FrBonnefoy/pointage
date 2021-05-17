@@ -27,7 +27,7 @@ def flag(s1,s2):
     except:
         return "NaN"
 
-def fusion(filename,brands,mode=0):
+def fusion(filename, brands, mode=0, fill_blank=False):
 
     if mode==0:
         result = glob.glob('*.csv')
@@ -132,8 +132,9 @@ def fusion(filename,brands,mode=0):
 
         final_pandas2.to_excel(writer, na_rep='', index=False, sheet_name='DATA')
         final_pandas2.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
+        writer.save()
 
-        
+
     if mode==1:
         result = glob.glob('*.csv')
         #temp_result=[x for x in result if 'hotels16' not in x and 'final_' not in x]
@@ -242,3 +243,4 @@ def fusion(filename,brands,mode=0):
 
         final_pandas2.to_excel(writer, na_rep='', index=False, sheet_name='DATA')
         final_pandas2.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
+        writer.save()
