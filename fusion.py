@@ -241,6 +241,11 @@ def fusion(filename, brands, mode=0, fill_blank=False):
 
         table.to_excel(writer,sheet_name='Summary')
 
+        if fill_blank == True:
+            final_pandas2['fill_na'] = np.where(final_pandas['capacité'].notna(), 0, 1)
+            final_pandas2['capacité'].fillna((final_pandas2['capacité'].mean()), inplace=True)
+            final_pandas2['capacité']=final_pandas2['capacité'].apply(np.floor)
+
         final_pandas2.to_excel(writer, na_rep='', index=False, sheet_name='DATA')
         final_pandas2.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
         writer.save()
