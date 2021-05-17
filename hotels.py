@@ -251,7 +251,7 @@ def scrape_hotel_info(x,y):
                 except:
                     url=''
                 try:
-                    sp.req2(url)
+                    sp.req(url)
                     webpage=sp.page.text
                     trip_soup = soup(webpage, "html.parser")
                     stars_trip=trip_soup.findAll('svg',{'class':'AZd6Ff4E'})
