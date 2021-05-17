@@ -31,7 +31,7 @@ import urllib
 
 def flag(s1,s2):
     try:
-        if jellyfish.jaro_winkler_similarity(s1,s2) > 0.75:
+        if jellyfish.jaro_winkler_similarity(s1,s2) > 0.7:
             return "OK"
         else:
             return "CHECK"
