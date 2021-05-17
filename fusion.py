@@ -29,6 +29,7 @@ def flag(s1,s2):
 
 def fusion(filename, brands, mode=0, fill_blank=False):
 
+
     if mode==0:
         result = glob.glob('*.csv')
         temp_result=[x for x in result if 'hotels16' not in x and 'final_' not in x]
