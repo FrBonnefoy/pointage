@@ -123,6 +123,7 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
                 return x
         final_pandas2['country'] = final_pandas2.apply(lambda x: fillcountry(x['country']), axis = 1)
         final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
+        final_pandas2['UE'].fillna("NA", inplace=True)
 
 
         filenamexlsx='final_'+filename+'.xlsx'
@@ -253,6 +254,7 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
                 return x
         final_pandas2['country'] = final_pandas2.apply(lambda x: fillcountry(x['country']), axis = 1)
         final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
+        final_pandas2['UE'].fillna("NA", inplace=True)
 
         filenamexlsx='final_'+filename+'.xlsx'
         filenamecsv='final_'+filename+'.csv'
