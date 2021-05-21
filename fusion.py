@@ -66,6 +66,8 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
 
         geo_pandas=final_pandas['adress']
         geo_pandas=geo_pandas.to_frame()
+        geo_pandas = geo_pandas[geo_pandas.adress.notnull()]
+        geo_pandas = geo_pandas[geo_pandas['adress']!='nan']
 
         factors=[]
         number=len(geo_pandas.index)
@@ -115,21 +117,18 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
         final_pandas2['BRAND'] = final_pandas2.apply(lambda x: fillbrand(x['BRAND']), axis = 1)
 
         def fillcountry(x):
-            if x=='':
+            if x=='' or x=='NaN':
                 return 'COUNTRY NOT FOUND'
             else:
                 return x
         final_pandas2['country'] = final_pandas2.apply(lambda x: fillcountry(x['country']), axis = 1)
+        final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
+
 
         filenamexlsx='final_'+filename+'.xlsx'
         filenamecsv='final_'+filename+'.csv'
 
-        writer = pd.ExcelWriter(filenamexlsx)
 
-        table = pd.pivot_table(final_pandas2, values=['capacité'], index=['BRAND'], columns=['UE','country'],
-                    aggfunc=[np.count_nonzero, np.sum], fill_value=0, margins = True )
-
-        table.to_excel(writer,sheet_name='Summary')
 
         if fill_blank == True:
             if force_fill>0:
@@ -142,6 +141,13 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
                 final_pandas2['fill_na'] = np.where(final_pandas['capacité'].notna(), 0, 1)
                 final_pandas2['capacité'].fillna((final_pandas2['capacité'].mean()), inplace=True)
                 final_pandas2['capacité']=final_pandas2['capacité'].apply(np.floor)
+
+        writer = pd.ExcelWriter(filenamexlsx)
+
+        table = pd.pivot_table(final_pandas2, values=['capacité'], index=['BRAND'], columns=['UE','country'],
+                    aggfunc=[np.count_nonzero, np.sum], fill_value=0, margins = True )
+
+        table.to_excel(writer,sheet_name='Summary')
 
         final_pandas2.to_excel(writer, na_rep='', index=False, sheet_name='DATA')
         final_pandas2.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
@@ -187,6 +193,9 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
 
         geo_pandas=final_pandas['external_adresse']
         geo_pandas=geo_pandas.to_frame()
+        geo_pandas = geo_pandas[geo_pandas.external_adresse.notnull()]
+        geo_pandas = geo_pandas[geo_pandas['external_adresse']!='nan']
+
 
         factors=[]
         number=len(geo_pandas.index)
@@ -238,11 +247,12 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
         final_pandas2['BRAND'] = final_pandas2.apply(lambda x: fillbrand(x['BRAND']), axis = 1)
 
         def fillcountry(x):
-            if x=='':
+            if x=='' or x=='NaN':
                 return 'COUNTRY NOT FOUND'
             else:
                 return x
         final_pandas2['country'] = final_pandas2.apply(lambda x: fillcountry(x['country']), axis = 1)
+        final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
 
         filenamexlsx='final_'+filename+'.xlsx'
         filenamecsv='final_'+filename+'.csv'
@@ -265,6 +275,13 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
                 final_pandas2['fill_na'] = np.where(final_pandas['capacité'].notna(), 0, 1)
                 final_pandas2['capacité'].fillna((final_pandas2['capacité'].mean()), inplace=True)
                 final_pandas2['capacité']=final_pandas2['capacité'].apply(np.floor)
+
+        writer = pd.ExcelWriter(filenamexlsx)
+
+        table = pd.pivot_table(final_pandas2, values=['capacité'], index=['BRAND'], columns=['UE','country'],
+                    aggfunc=[np.count_nonzero, np.sum], fill_value=0, margins = True )
+
+        table.to_excel(writer,sheet_name='Summary')
 
         final_pandas2.to_excel(writer, na_rep='', index=False, sheet_name='DATA')
         final_pandas2.to_csv(filenamecsv, sep='\t',na_rep='', index=False)
