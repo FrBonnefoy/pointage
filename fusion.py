@@ -259,11 +259,6 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
 
         writer = pd.ExcelWriter(filenamexlsx)
 
-        table = pd.pivot_table(final_pandas2, values=['capacité'], index=['BRAND'], columns=['UE','country'],
-                    aggfunc=[np.count_nonzero, np.sum], fill_value=0, margins = True )
-
-        table.to_excel(writer,sheet_name='Summary')
-
         if fill_blank == True:
             if force_fill>0:
                 final_pandas2['fill_na'] = np.where(final_pandas['capacité'].notna(), 0, 1)
