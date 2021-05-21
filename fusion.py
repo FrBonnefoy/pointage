@@ -27,7 +27,7 @@ def flag(s1,s2):
     except:
         return "NaN"
 
-def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
+def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0, force_country=''):
 
 
     if mode==0:
@@ -122,7 +122,10 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
             else:
                 return x
         final_pandas2['country'] = final_pandas2.apply(lambda x: fillcountry(x['country']), axis = 1)
-        final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
+        if force_country=='':
+            final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
+        else:
+            final_pandas2['country'].fillna(force_country, inplace=True)
         final_pandas2['UE'].fillna("NA", inplace=True)
 
 
@@ -253,7 +256,10 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0):
             else:
                 return x
         final_pandas2['country'] = final_pandas2.apply(lambda x: fillcountry(x['country']), axis = 1)
-        final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
+        if force_country=='':
+            final_pandas2['country'].fillna("COUNTRY NOT FOUND", inplace=True)
+        else:
+            final_pandas2['country'].fillna(force_country, inplace=True)
         final_pandas2['UE'].fillna("NA", inplace=True)
 
         filenamexlsx='final_'+filename+'.xlsx'
