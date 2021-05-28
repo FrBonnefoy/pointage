@@ -103,7 +103,7 @@ def pointer4_0(x):
 
 def scrape_hotel_info_2(x):
     y='hotels'+'16_fast_'+'.csv'
-    time.sleep(2)
+    time.sleep(3)
     x=x.strip().replace('"','')
     cosito=cs.custom_search(x)
     try:
