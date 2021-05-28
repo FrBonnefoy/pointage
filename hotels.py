@@ -87,8 +87,8 @@ def pointer4_0(x):
     fhandle.close()
     lines = open(x, 'r').readlines()
     with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
-    	future_to_url = {executor.submit(cosito, url): url for url in coso}
-    	for future in tqdm(concurrent.futures.as_completed(future_to_url),total=len(coso)):
+    	future_to_url = {executor.submit(scrape_hotel_info_2, url): url for url in lines}
+    	for future in tqdm(concurrent.futures.as_completed(future_to_url),total=len(lines)):
     		url = future_to_url[future]
     		try:
     			data = future.result()
