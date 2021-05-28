@@ -306,7 +306,7 @@ def scrape_hotel_info_2(x):
                     s = pd.DataFrame(to_append).T
                     s.to_csv(y, mode='a', header=False,sep='\t',index=False)
                     #time.sleep(1)
-                    pbar.update(1)
+                    #pbar.update(1)
 
     except Exception as ex:
         stars=''
