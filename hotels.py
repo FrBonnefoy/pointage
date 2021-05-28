@@ -11,6 +11,7 @@ from concurrent.futures import Future
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import concurrent.futures
+import concurrent.futures
 import requests
 import re
 import json
@@ -75,6 +76,256 @@ def open_session_firefox():
 
 def close_session():
     browser.close()
+
+def pointer4_0(x):
+    ts = time.gmtime()
+    tsx=time.strftime("%s", ts)
+    namefile='hotels'+'16_fast_'+'.csv'
+    fhandle=open(namefile,'w', encoding="utf-8")
+    headers = ("Hotel Name"+"\t"+'stars'+'\t'+"Capacities" + '\t' + "webname" + '\t' + "address" +'\t'+"url\n")
+    fhandle.write(headers)
+    fhandle.close()
+    lines = open(x, 'r').readlines()
+    with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
+    	future_to_url = {executor.submit(cosito, url): url for url in coso}
+    	for future in tqdm(concurrent.futures.as_completed(future_to_url),total=len(coso)):
+    		url = future_to_url[future]
+    		try:
+    			data = future.result()
+    		except Exception as exc:
+    			with open('exception.txt',"a") as flog:
+    				print('%r generated an exception: %s' % (url, exc),file=flog)
+    		else:
+    			with open('completed.txt',"a") as flog:
+    				print('%r page is completed' % url,file=flog)
+
+
+
+def scrape_hotel_info_2(x):
+    y='hotels'+'16_fast_'+'.csv'
+    time.sleep(2)
+    x=x.strip().replace('"','')
+    cosito=cs.custom_search(x)
+    try:
+        cosito.request()
+    except Exception as e:
+        pass
+
+    #1st attempt hotels.com
+
+
+    #print('checking hotels.com...')
+    try:
+        url=cosito.hotels
+    except:
+        url=''
+
+    try:
+        try:
+            sp.req(url)
+            webpage=sp.page.text
+            toy_soup2 = soup(webpage, "html.parser")
+            gold=toy_soup2.find("div",{"id":"overview-section-4"})
+            if len(gold)<1:
+                gold=toy_soup2.find("div",{"class":"_2cVsY2"})
+            gold = str(gold)
+            chambres = re.findall(r"(\d+) chambres", gold)
+            if len(chambres)<1:
+                chambres = re.findall(r"(\d+) appartements", gold)
+            try:
+                chambres=chambres[0]
+            except:
+                chambres=''
+            try:
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+            except:
+                pass
+            silver=toy_soup2.find("span",{"class":"star-rating-text star-rating-text-strong widget-star-rating-overlay widget-tooltip widget-tooltip-responsive widget-tooltip-ignore-touch"})
+            if len(silver)<1:
+                silver=toy_soup2.find("span",{"class":"_2dOcxA"})
+            silver2=toy_soup2.find("span",{"class":"star-rating-text widget-star-rating-overlay widget-tooltip widget-tooltip-responsive widget-tooltip-ignore-touch"})
+            try:
+                silver = str(silver)
+                silver2 = str(silver2)
+                stars = re.findall(r"(\d?\,?\d) étoiles", silver)
+                stars2 = re.findall(r"(\d?\,?\d) étoiles", silver2)
+                if len(stars)==0 and len(stars2)>0:
+                    stars=stars2[0]
+                else:
+                    stars=stars[0]
+            except:
+                stars=''
+            bronze = toy_soup2.find("h2")
+            if len(bronze)<1:
+                bronze = toy_soup2.find("div",{'class':'_2h6Jhd'})
+            try:
+                bronze=str(bronze)
+                bronze=bronze.replace("<h2>","")
+                bronze=bronze.replace("</h2>","")
+                vname = bronze
+            except:
+                vname = ""
+            try:
+                sp.browser.find_element_by_css_selector('.cta.widget-overlay-close').click()
+            except:
+                pass
+            plastic = toy_soup2.find("span",{"class":"postal-addr"})
+            if len(plastic)<1:
+                plastic = toy_soup2.findAll("span",{"class":"_2wKxGq _1clhIX"})
+            try:
+                adrs = plastic.text
+            except:
+                adrs = ""
+
+        except:
+            vname=""
+
+        #Check if hotels.com returned valid information
+
+        if flag(x,vname)=='OK':
+
+            varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t',''),str(url).replace('\t','')]
+            to_append=varlist
+            s = pd.DataFrame(to_append).T
+            s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+            #time.sleep(1)
+            #pbar.update(1)
+
+        else:
+
+            #Second attempt
+            #print('checking hrs.com...')
+            try:
+                url=cosito.hrs
+            except:
+                url=''
+
+            try:
+                sp.req(url)
+
+                description_rating=sp.scrape_light('span',{'class':'product--rating'})
+                lectura_rating=description.now()
+                sopa_stars=sp.soup(str(lectura_rating),'html.parser')
+                stars=sopa_stars.findAll('i',{'class':'icon--star'})
+                stars=str(len(stars))
+
+                description_feature=sp.scrape_light('p',{'class':'feature'})
+                lectura_feature=description_feature.now()
+                regex=re.compile('chambres (\d+)')
+                try:
+                    chambres=regex.findall(str(lectura_feature[0]))[0]
+                except:
+                    chambres=""
+
+                description_vname=sp.scrape_light('h1',{'class':'product--title'})
+                lecture_vname=description_vname.now()
+                try:
+                    vname=lecture_vname[0].text.strip()
+                except:
+                    vname=""
+
+                description_adrs=sp.scrape_light('span',{'class':'location-marker'})
+                lecture_adrs=description_adrs.now()
+                try:
+                    adrs=' '.join(lecture_adrs[0].text.replace('\n','').split())
+                except:
+                    adrs=""
+
+            except:
+                vname=""
+
+            if flag(x,vname)=='OK':
+
+                varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t',''),str(url).replace('\t','')]
+                to_append=varlist
+                s = pd.DataFrame(to_append).T
+                s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+                #time.sleep(1)
+                #pbar.update(1)
+
+            else:
+
+                #Third attempt
+
+                #print('checking tripadvisor...')
+
+                #Getting url
+                try:
+                    url=cosito.tripadvisor
+                except:
+                    url=''
+                try:
+                    sp.req(url)
+                    webpage=sp.page.text
+                    trip_soup = soup(webpage, "html.parser")
+                    stars_trip=trip_soup.findAll('svg',{'class':'AZd6Ff4E'})
+                    capacity_trip=trip_soup.findAll('div',{'id':'ABOUT_TAB'})
+                    name_trip=trip_soup.findAll('h1',{'id':'HEADING'})
+                    adrs_trip=trip_soup.findAll('span',{'class':'_3ErVArsu jke2_wbp'})
+
+                    try:
+                        stars=str(stars_trip[0]['title']).replace(' sur 5\xa0bulles','')
+                    except:
+                        stars=''
+                    try:
+                        chambres=str(capacity_trip)
+                        roomsy=re.compile('NOMBRE DE CHAMBRES<\/div><div class="_1NHwuRzF">(\d+)')
+                        chambres=roomsy.findall(chambres)[0]
+                    except:
+                        chambres=''
+                    try:
+                        vname=name_trip[0].text
+                    except:
+                        vname=''
+                    try:
+                        adrs=adrs_trip[0].text
+                    except:
+                        adrs=""
+                except:
+                    vname=""
+                #Check if tripadvisor returned valid information
+
+                if flag(x,vname)=='OK':
+
+                    varlist=[str(x).replace('\t',''),str(stars).replace('\t',''),str(chambres).replace('\t',''),str(vname).replace('\t',''),str(adrs).replace('\t',''),str(url).replace('\t','')]
+                    to_append=varlist
+                    s = pd.DataFrame(to_append).T
+                    s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+                    #time.sleep(1)
+                    #pbar.update(1)
+
+                else:
+                    stars=''
+                    chambres=''
+                    vname=''
+                    adrs=''
+                    url=''
+                    #print(x, 'could not be completed','because of',' not found')
+                    varlist=[x,stars,chambres,vname,adrs,url]
+                    to_append=varlist
+                    s = pd.DataFrame(to_append).T
+                    s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+                    #time.sleep(1)
+                    pbar.update(1)
+
+    except Exception as ex:
+        stars=''
+        chambres=''
+        vname=''
+        adrs=''
+        url=''
+        #print(x, 'could not be completed','because of',ex)
+        varlist=[x,stars,chambres,vname,adrs,url]
+        to_append=varlist
+        s = pd.DataFrame(to_append).T
+        s.to_csv(y, mode='a', header=False,sep='\t',index=False)
+        #time.sleep(1)
+        #pbar.update(1)
+
+
+
+
+
 
 def pointer3_0(x):
     global pbar
