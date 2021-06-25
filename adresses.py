@@ -48,7 +48,7 @@ def obtain(x):
         a_data['country'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).country, axis=1)
 
 
-    df_input = pd.concat(geo_list,ignore_index=True)
+    df_input = pd.concat(df_list,ignore_index=True)
 
     return df_input
 
