@@ -83,6 +83,8 @@ def obtain(x):
     # It joins every chunk back together into the main dataframe.
     df_input = pd.concat(df_list,ignore_index=True)
     # Uses the flag_detail function to see if the Google Search sent accurate results.
+    df_input['NAME'] = df_input['NAME'].astype(str)
+    df_input[df_input.columns[0]] = df_input[df_input.columns[0]].astype(str)
     df_input['CHECK_INFO_GOOGLE'] = df_input.apply(lambda x: flag_detail(x[df_input.columns[0]],x['NAME']), axis=1)
     # Reads the file with the information on the worldwide chain hotel supply. This line of code, and the corresponding file, should be updated each year.
     df_parc = pd.read_pickle('/home/jovyan/parc2020')
@@ -136,15 +138,14 @@ def obtain(x):
 
         # If a match is found, then they are transcribed on the input
         if len(df_parc_final) > 0:
-            df_input.at[z,'ID_MATCH_ADRS'] = str(df_parc_final['id_hotel'])
-            df_input.at[z,'NAME_MATCH_ADRS'] = str(df_parc_final['nom_commercial'])
+            df_input.at[z,'ID_MATCH_ADRS'] = str(df_parc_final.iloc[0]['id_hotel'])
+            df_input.at[z,'NAME_MATCH_ADRS'] = str(df_parc_final.iloc[0]['nom_commercial'])
         else:
             df_input.at[z,'ID_MATCH_ADRS'] = ""
             df_input.at[z,'NAME_MATCH_ADRS'] = ""
 
 
     # It checks on the finalized input if there are name matches that occur more than once, it then flags them.
-
     df_input['CHECK_NAME_MATCH'] = pd.Series( dtype="int64")
     id_list = df_input['ID_MATCH_NAME'].to_list()
     id_list = [str(x) for x in id_list]
