@@ -93,6 +93,9 @@ def obtain(x):
     df_input['ID_MATCH_ADRS'] = pd.Series( dtype="string")
     df_input['NAME_MATCH_ADRS'] = pd.Series( dtype="string")
 
+    # It assures that all names on the main dataframe are strings
+    df_parc['nom_commercial'] = df_parc['nom_commercial'].astype(str)
+
     # It phoenetically encodes the names on the input and on the main dataframe
     df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
     df_input['CODEX_LIST'] = df_input.apply(lambda x: send_codex(x[df_list.columns[0]]), axis=1)
