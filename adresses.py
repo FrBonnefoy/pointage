@@ -19,6 +19,7 @@ def obtain(x):
     except:
         with open(x) as f:
             input_ = f.readlines()
+            input_ = [x.strip() for x in input_]
             df_input = pd.DataFrame(input_)
 
     factors=[]
