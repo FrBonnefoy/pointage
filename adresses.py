@@ -30,25 +30,22 @@ def obtain(x):
 
     for a_data in tqdm(geo_list):
         time.sleep(1)
-        a_data['data'] = a_data.apply(lambda x: gc.searcher(x['adress']).data, axis=1)
+        a_data['DATA'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).data, axis=1)
+        a_data['PLACE_ID'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).place_id, axis=1)
+        a_data['NAME'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).name, axis=1)
+        a_data['ADRS'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).adrs, axis=1)
+        a_data['street_number'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).street_number, axis=1)
+        a_data['road'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).road, axis=1)
+        a_data['suburb'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).suburb, axis=1)
+        a_data['city'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).city, axis=1)
+        a_data['district'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).district, axis=1)
+        a_data['postcode'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).postcode, axis=1)
+        a_data['country'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).country, axis=1)
+
 
     df_input = pd.concat(geo_list,ignore_index=True)
 
-    df_input['street_number'] = df_input.apply(lambda x: gc.parser(x['data']).street_number, axis=1)
-    df_input['route'] = df_input.apply(lambda x: gc.parser(x['data']).route, axis=1)
-    df_input['neighborhood'] = df_input.apply(lambda x: gc.parser(x['data']).neighborhood, axis=1)
-    df_input['locality'] = df_input.apply(lambda x: gc.parser(x['data']).locality, axis=1)
-    df_input['aa2'] = df_input.apply(lambda x: gc.parser(x['data']).aa2, axis=1)
-    df_input['aa1'] = df_input.apply(lambda x: gc.parser(x['data']).aa1, axis=1)
-    df_input['country'] = df_input.apply(lambda x: gc.parser(x['data']).country, axis=1)
-    df_input['code_postal'] = df_input.apply(lambda x: gc.parser(x['data']).code_postal, axis=1)
-    df_input['lat'] = df_input.apply(lambda x: gc.parser(x['data']).lat, axis=1)
-    df_input['lng'] = df_input.apply(lambda x: gc.parser(x['data']).lng, axis=1)
-    df_input['bounds'] = df_input.apply(lambda x: gc.parser(x['data']).bounds, axis=1)
-    df_input['viewport'] = df_input.apply(lambda x: gc.parser(x['data']).viewport, axis=1)
-    df_input['formatted_address'] = df_input.apply(lambda x: gc.parser(x['data']).faddress, axis=1)
-    df_input['id'] = df_input.apply(lambda x: gc.parser(x['data']).id, axis=1)
-    df_input['UE'] = df_input.apply(lambda x: gc.parser(x['data']).ue, axis=1)
+    return df_input
 
 
 class parse_adrs:
