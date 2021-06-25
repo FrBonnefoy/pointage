@@ -8,6 +8,11 @@ import pandas as pd
 from postal.expand import expand_address
 from postal.parser import parse_address
 
+def send_codex(x):
+    rating_codex1 = [js.match_rating_codex(y) for y in x.split()]
+    return ''.join(rating_codex1)
+
+
 def obtain(x):
     try:
         df_input = pd.read_excel(x)
@@ -28,7 +33,7 @@ def obtain(x):
 
     print('Fetching location data...')
 
-    for a_data in tqdm(geo_list):
+    for a_data in tqdm(df_list):
         time.sleep(1)
         a_data['DATA'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).data, axis=1)
         a_data['PLACE_ID'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).place_id, axis=1)
