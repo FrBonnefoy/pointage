@@ -47,3 +47,100 @@ def obtain(x):
     df_input['formatted_address'] = df_input.apply(lambda x: gc.parser(x['data']).faddress, axis=1)
     df_input['id'] = df_input.apply(lambda x: gc.parser(x['data']).id, axis=1)
     df_input['UE'] = df_input.apply(lambda x: gc.parser(x['data']).ue, axis=1)
+
+
+class parse_adrs:
+    def __init__(self,query):
+        self.query = query
+        self.data = parse_address(query)
+
+        try:
+            street_number = list(filter(lambda x: x[1]=='house_number', self.data))[0][0]
+        except:
+            street_number = ''
+
+        try:
+            road = list(filter(lambda x: x[1]=='road', self.data))[0][0]
+        except:
+            road = ''
+
+        try:
+            suburb = list(filter(lambda x: x[1]=='suburb', self.data))[0][0]
+        except:
+            suburb = ''
+
+        try:
+            city = list(filter(lambda x: x[1]=='city', self.data))[0][0]
+        except:
+            city = ''
+
+        try:
+            district = list(filter(lambda x: x[1]=='state_district', self.data))[0][0]
+        except:
+            district = ''
+
+        try:
+            postcode = list(filter(lambda x: x[1]=='postcode', self.data))[0][0]
+        except:
+            postcode = ''
+
+        try:
+            country = list(filter(lambda x: x[1]=='country', self.data))[0][0]
+        except:
+            country = ''
+
+        self.street_number = street_number
+        self.road = road
+        self.suburb = suburb
+        self.city = city
+        self.district = district
+        self.postcode = postcode
+        self.country = country
+
+class parse_adrs_norm:
+    def __init__(self,query):
+        self.query = query
+        self.data = parse_address(expand_address(query)[0])
+
+        try:
+            street_number = list(filter(lambda x: x[1]=='house_number', self.data))[0][0]
+        except:
+            street_number = ''
+
+        try:
+            road = list(filter(lambda x: x[1]=='road', self.data))[0][0]
+        except:
+            road = ''
+
+        try:
+            suburb = list(filter(lambda x: x[1]=='suburb', self.data))[0][0]
+        except:
+            suburb = ''
+
+        try:
+            city = list(filter(lambda x: x[1]=='city', self.data))[0][0]
+        except:
+            city = ''
+
+        try:
+            district = list(filter(lambda x: x[1]=='state_district', self.data))[0][0]
+        except:
+            district = ''
+
+        try:
+            postcode = list(filter(lambda x: x[1]=='postcode', self.data))[0][0]
+        except:
+            postcode = ''
+
+        try:
+            country = list(filter(lambda x: x[1]=='country', self.data))[0][0]
+        except:
+            country = ''
+
+        self.street_number = street_number
+        self.road = road
+        self.suburb = suburb
+        self.city = city
+        self.district = district
+        self.postcode = postcode
+        self.country = country
