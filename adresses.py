@@ -98,7 +98,7 @@ def obtain(x):
 
     # It phoenetically encodes the names on the input and on the main dataframe
     df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
-    df_input['CODEX_LIST'] = df_input.apply(lambda x: send_codex(x[df_list.columns[0]]), axis=1)
+    df_input['CODEX_LIST'] = df_input.apply(lambda x: send_codex(x[df_input.columns[0]]), axis=1)
 
     # It starts to fill the cells of the input
     for z in tqdm(range(len(df_input))):
