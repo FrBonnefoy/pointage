@@ -5,6 +5,8 @@ import time
 from tqdm.notebook import tqdm
 import numpy as np
 import pandas as pd
+from postal.expand import expand_address
+from postal.parser import parse_address
 
 def obtain(x):
     try:
