@@ -132,7 +132,7 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0, force_count
         filenamexlsx='final_'+filename+'.xlsx'
         filenamecsv='final_'+filename+'.csv'
 
-
+        final_pandas2.reset_index(drop=True)
 
         if fill_blank == True:
             if force_fill>0:
@@ -266,6 +266,8 @@ def fusion(filename, brands, mode=0, fill_blank=False, force_fill=0, force_count
         filenamecsv='final_'+filename+'.csv'
 
         writer = pd.ExcelWriter(filenamexlsx)
+
+        final_pandas2.reset_index(drop=True)
 
         if fill_blank == True:
             if force_fill>0:
