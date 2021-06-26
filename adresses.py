@@ -138,7 +138,7 @@ def obtain(x):
 
         nom = df_input["nom"]
         df_input.drop(labels=["nom"], axis=1,inplace = True)
-        df_input.insert(1, "nom", nom)
+        df_input.insert(0, "nom", nom)
     else:
         try:
             df_input = pd.read_excel(x)
