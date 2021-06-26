@@ -42,8 +42,8 @@ def CountFrequency(my_list):
 
 # Function that matches to the main dataframe names and IDs, according to name and address matching, for a given row of input
 
-def row_match(z):
-    global df_input
+def init_parc():
+    global df_parc
     # Reads the file with the information on the worldwide chain hotel supply. This line of code, and the corresponding file, should be updated each year.
     df_parc = pd.read_pickle('/home/jovyan/parc2020')
     # It assures that all names on the main dataframe are strings
@@ -52,23 +52,26 @@ def row_match(z):
     # It phoenetically encodes the names on the input and on the main dataframe
     df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
 
+def row_match(z):
+    global df_input
+    df_parc2 = df_parc
     # It drops the Jaro column if necessary
     try:
-        del df_parc['JARO']
+        del df_parc2['JARO']
     except:
         pass
 
     # A new temporary column is created on the dataframe with each iteration. This column calculates the string similarity of cell with all the cells on the main dataframe.
-    df_parc['JARO'] = df_parc.apply(lambda x: js.jaro_winkler_similarity(df_input.iloc[z]['CODEX_LIST'], x['CODEX_MKG']), axis=1)
+    df_parc2['JARO'] = df_parc2.apply(lambda x: js.jaro_winkler_similarity(df_input.iloc[z]['CODEX_LIST'], x['CODEX_MKG']), axis=1)
     # Matches to the most similar cell on the main dataframe
-    match = df_parc.loc[df_parc['JARO'].idxmax()]
+    match = df_parc2.loc[df_parc2['JARO'].idxmax()]
     # If these names are sufficiently similar, the name and id are taken to the input.
     if match['JARO']>0.8:
         df_input.at[z,'ID_MATCH_NAME'] = str(match['id_hotel'])
         df_input.at[z,'NAME_MATCH_NAME'] = str(match['nom_commercial'])
 
     # Starts the process of matching by adress. First, country; second, city; third, road; fourth, street number.
-    df_parc_filter1 = df_parc[df_parc['COUNTRY']==df_input.iloc[z]['country']]
+    df_parc_filter1 = df_parc2[df_parc2['COUNTRY']==df_input.iloc[z]['country']]
     df_parc_filter2 = df_parc_filter1[df_parc_filter1['CITY']==df_input.iloc[z]['city']]
     df_parc_filter3 = df_parc_filter2[df_parc_filter2['ROAD']==df_input.iloc[z]['road']]
     df_parc_filter4 = df_parc_filter3[df_parc_filter3['STREET_NUMBER']==df_input.iloc[z]['street_number']]
@@ -89,8 +92,10 @@ def row_match(z):
 # Obtains MKG IDs for a given list of hotel properties, the names of the properties must be on the first column
 
 def obtain(x):
-    global df_input
+    #Initializes main dataframe
+    init_parc()
     # Read the file
+    global df_input
     try:
         df_input = pd.read_excel(x)
     except:
