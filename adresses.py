@@ -40,15 +40,28 @@ def CountFrequency(my_list):
 
     return freq
 
-# Function that matches to the main dataframe names and IDs, according to name and address matching, for a given row of input
+# Flags if matched ID has any rank 2 present
+def rank2_flag(x):
+    try:
+        filtered_rank = df_parc[df_parc['id_hotel']==x]
+        if len(filtered_rank[filtered_rank['rang']>1]):
+            return 'YES'
+        else:
+            return 'NO'
+    except:
+        return None
 
+
+# Initializes main dataframe
 def init_parc():
     global df_parc
     # Reads the file with the information on the worldwide chain hotel supply. This line of code, and the corresponding file, should be updated each year.
     df_parc = pd.read_pickle('/home/jovyan/parc2020')
     # It assures that all names and ids on the main dataframe are strings
     df_parc['nom_commercial'] = df_parc['nom_commercial'].astype(str)
-    df_parc['id_hotel'] = df_parc['nom_commercial'].astype(str)
+    df_parc['id_hotel'] = df_parc['id_hotel'].astype(str)
+    df_parc['rang'] = df_parc['rang'].fillna(0)
+    df_parc['rang'] = df_parc['rang'].astype('int64')
     # It phoenetically encodes the names on the input and on the main dataframe
     df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
     del df_parc['telephone']
@@ -72,6 +85,8 @@ def init_parc():
     del df_parc['Pays n-1']
     del df_parc['Région n-1']
     del df_parc['Code Import']
+
+# Function that matches to the main dataframe names and IDs, according to name and address matching, for a given row of input
 
 def row_match(z):
     global df_input
@@ -109,9 +124,7 @@ def row_match(z):
 
 
 
-
 # Obtains MKG IDs for a given list of hotel properties, the names of the properties must be on the first column
-
 def obtain(x):
     #Initializes main dataframe
     init_parc()
@@ -177,7 +190,7 @@ def obtain(x):
 
     list_row = list(range(len(df_input)))
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=25) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
     	future_to_row = {executor.submit(row_match, row): row for row in list_row}
     	for future in tqdm(concurrent.futures.as_completed(future_to_row),total=len(list_row)):
     		row = future_to_row[future]
@@ -206,6 +219,18 @@ def obtain(x):
                 df_input.at[z, 'CHECK_NAME_MATCH'] = 'OK'
         except:
             pass
+
+    #It consolidates all results on a single column and puts it at the second place
+
+    df_input['ID_MKG_MATCH'] = df_input['ID_MATCH_ADRS']
+    df_input.loc[df_input["ID_MKG_MATCH"].isnull(),'ID_MKG_MATCH'] = df_input['ID_MATCH_NAME']
+    df_input.loc[df_input["ID_MKG_MATCH"] == '','ID_MKG_MATCH'] = df_input['ID_MATCH_NAME']
+    mkg_id = df_input["ID_MKG_MATCH"]
+    df_input.drop(labels=["ID_MKG_MATCH"], axis=1,inplace = True)
+    df_input.insert(1, "ID_MKG_MATCH", mkg_id)
+
+    # It checks if there are rank 2 in the transformed dataframe
+    df_input['HAS_RANK2'] = df_input.apply(lambda x: rank2_flag(x['ID_MKG_MATCH']), axis=1)
 
     # Returns transformed input
     return df_input
