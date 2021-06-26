@@ -132,9 +132,9 @@ def obtain(x):
     global df_input
     if 'final_' in x:
         try:
-            df_input = pandas.read_excel(x, sheet_name = 'DATA')
+            df_input = pd.read_excel(x, sheet_name = 'DATA')
         except:
-            df_input = pandas.read_excel(x)
+            df_input = pd.read_excel(x)
 
         nom = df_input["nom"]
         df_input.drop(labels=["nom"], axis=1,inplace = True)
