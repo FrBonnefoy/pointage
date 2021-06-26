@@ -51,6 +51,27 @@ def init_parc():
 
     # It phoenetically encodes the names on the input and on the main dataframe
     df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
+    del df_parc['telephone']
+    del df_parc['e_mail']
+    del df_parc['id_chaine']
+    del df_parc['id_groupe_hotelier']
+    del df_parc['MDG 2020']
+    del df_parc['type de site']
+    del df_parc['Gamme enseigne']
+    del df_parc['Gamme 2']
+    del df_parc['Enseigne 2']
+    del df_parc['New enseigne']
+    del df_parc['agglo n-1']
+    del df_parc['étoile réelle n-1']
+    del df_parc['étoile MKG n-1']
+    del df_parc['capacité n-1']
+    del df_parc['Type n-1']
+    del df_parc['enseigne n-1']
+    del df_parc['Validation 2018']
+    del df_parc['MDG 2019']
+    del df_parc['Pays n-1']
+    del df_parc['Région n-1']
+    del df_parc['Code Import']
 
 def row_match(z):
     global df_input
@@ -156,7 +177,7 @@ def obtain(x):
 
     list_row = list(range(len(df_input)))
 
-    with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
     	future_to_row = {executor.submit(row_match, row): row for row in list_row}
     	for future in tqdm(concurrent.futures.as_completed(future_to_row),total=len(list_row)):
     		row = future_to_row[future]
