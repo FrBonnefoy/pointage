@@ -151,7 +151,7 @@ def obtain(x):
 
     list_row = list(range(len(df_input)))
 
-    with concurrent.futures.ProcessPoolExecutor(max_workers=20) as executor:
+    with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
     	future_to_row = {executor.submit(row_match, row): row for row in list_row}
     	for future in tqdm(concurrent.futures.as_completed(future_to_row),total=len(list_row)):
     		row = future_to_row[future]
