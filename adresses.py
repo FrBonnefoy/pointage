@@ -43,6 +43,7 @@ def CountFrequency(my_list):
 # Function that matches to the main dataframe names and IDs, according to name and address matching, for a given row of input
 
 def row_match(z):
+    global df_input
     # Reads the file with the information on the worldwide chain hotel supply. This line of code, and the corresponding file, should be updated each year.
     df_parc = pd.read_pickle('/home/jovyan/parc2020')
     # It assures that all names on the main dataframe are strings
@@ -136,8 +137,6 @@ def obtain(x):
     df_input['NAME'] = df_input['NAME'].astype(str)
     df_input[df_input.columns[0]] = df_input[df_input.columns[0]].astype(str)
     df_input['CHECK_INFO_GOOGLE'] = df_input.apply(lambda x: flag_detail(x[df_input.columns[0]],x['NAME']), axis=1)
-    # Reads the file with the information on the worldwide chain hotel supply. This line of code, and the corresponding file, should be updated each year.
-    df_parc = pd.read_pickle('/home/jovyan/parc2020')
 
     # Creates extra columns where possible matches can be stored. Two methods are used: string similarity and address matching.
     df_input['ID_MATCH_NAME'] = pd.Series( dtype="string")
@@ -145,11 +144,7 @@ def obtain(x):
     df_input['ID_MATCH_ADRS'] = pd.Series( dtype="string")
     df_input['NAME_MATCH_ADRS'] = pd.Series( dtype="string")
 
-    # It assures that all names on the main dataframe are strings
-    df_parc['nom_commercial'] = df_parc['nom_commercial'].astype(str)
-
-    # It phoenetically encodes the names on the input and on the main dataframe
-    df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
+    # It phoenetically encodes the names on the input
     df_input['CODEX_LIST'] = df_input.apply(lambda x: send_codex(x[df_input.columns[0]]), axis=1)
 
     # It launches parallel processing of row_match function through dataframe
