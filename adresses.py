@@ -10,6 +10,7 @@ import pandas as pd
 from postal.expand import expand_address
 from postal.parser import parse_address
 import jellyfish as js
+import concurrent.futures
 
 # Codifies names according to phonetics
 
@@ -39,10 +40,55 @@ def CountFrequency(my_list):
 
     return freq
 
+# Function that matches to the main dataframe names and IDs, according to name and address matching, for a given row of input
+
+def row_match(z):
+    # Reads the file with the information on the worldwide chain hotel supply. This line of code, and the corresponding file, should be updated each year.
+    df_parc = pd.read_pickle('/home/jovyan/parc2020')
+    # It assures that all names on the main dataframe are strings
+    df_parc['nom_commercial'] = df_parc['nom_commercial'].astype(str)
+
+    # It phoenetically encodes the names on the input and on the main dataframe
+    df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
+
+    # It drops the Jaro column if necessary
+    try:
+        del df_parc['JARO']
+    except:
+        pass
+
+    # A new temporary column is created on the dataframe with each iteration. This column calculates the string similarity of cell with all the cells on the main dataframe.
+    df_parc['JARO'] = df_parc.apply(lambda x: js.jaro_winkler_similarity(df_input.iloc[z]['CODEX_LIST'], x['CODEX_MKG']), axis=1)
+    # Matches to the most similar cell on the main dataframe
+    match = df_parc.loc[df_parc['JARO'].idxmax()]
+    # If these names are sufficiently similar, the name and id are taken to the input.
+    if match['JARO']>0.8:
+        df_input.at[z,'ID_MATCH_NAME'] = str(match['id_hotel'])
+        df_input.at[z,'NAME_MATCH_NAME'] = str(match['nom_commercial'])
+
+    # Starts the process of matching by adress. First, country; second, city; third, road; fourth, street number.
+    df_parc_filter1 = df_parc[df_parc['COUNTRY']==df_input.iloc[z]['country']]
+    df_parc_filter2 = df_parc_filter1[df_parc_filter1['CITY']==df_input.iloc[z]['city']]
+    df_parc_filter3 = df_parc_filter2[df_parc_filter2['ROAD']==df_input.iloc[z]['road']]
+    df_parc_filter4 = df_parc_filter3[df_parc_filter3['STREET_NUMBER']==df_input.iloc[z]['street_number']]
+    df_parc_final = df_parc_filter4
+
+
+    # If a match is found, then they are transcribed on the input
+    if len(df_parc_final) > 0:
+        df_input.at[z,'ID_MATCH_ADRS'] = str(df_parc_final.iloc[0]['id_hotel'])
+        df_input.at[z,'NAME_MATCH_ADRS'] = str(df_parc_final.iloc[0]['nom_commercial'])
+    else:
+        df_input.at[z,'ID_MATCH_ADRS'] = ""
+        df_input.at[z,'NAME_MATCH_ADRS'] = ""
+
+
+
+
 # Obtains MKG IDs for a given list of hotel properties, the names of the properties must be on the first column
 
 def obtain(x):
-
+    global df_input
     # Read the file
     try:
         df_input = pd.read_excel(x)
@@ -67,21 +113,25 @@ def obtain(x):
     print('Fetching location data...')
 
     for a_data in tqdm(df_list):
-        time.sleep(1)
+        time.sleep(0.75)
         a_data['DATA'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).data, axis=1)
-        a_data['PLACE_ID'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).place_id, axis=1)
-        a_data['NAME'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).name, axis=1)
-        a_data['ADRS'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).adrs, axis=1)
-        a_data['street_number'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).street_number, axis=1)
-        a_data['road'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).road, axis=1)
-        a_data['suburb'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).suburb, axis=1)
-        a_data['city'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).city, axis=1)
-        a_data['district'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).district, axis=1)
-        a_data['postcode'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).postcode, axis=1)
-        a_data['country'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).country, axis=1)
+
 
     # It joins every chunk back together into the main dataframe.
     df_input = pd.concat(df_list,ignore_index=True)
+
+    # It parses the column data into new columns
+    df_input['PLACE_ID'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).place_id, axis=1)
+    df_input['NAME'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).name, axis=1)
+    df_input['ADRS'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).adrs, axis=1)
+    df_input['street_number'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).street_number, axis=1)
+    df_input['road'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).road, axis=1)
+    df_input['suburb'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).suburb, axis=1)
+    df_input['city'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).city, axis=1)
+    df_input['district'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).district, axis=1)
+    df_input['postcode'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).postcode, axis=1)
+    df_input['country'] = df_input.apply(lambda x: gc.parser_detail(x['DATA']).country, axis=1)
+
     # Uses the flag_detail function to see if the Google Search sent accurate results.
     df_input['NAME'] = df_input['NAME'].astype(str)
     df_input[df_input.columns[0]] = df_input[df_input.columns[0]].astype(str)
@@ -102,38 +152,18 @@ def obtain(x):
     df_parc['CODEX_MKG'] = df_parc.apply(lambda x: send_codex(x['nom_commercial']), axis=1)
     df_input['CODEX_LIST'] = df_input.apply(lambda x: send_codex(x[df_input.columns[0]]), axis=1)
 
-    # It starts to fill the cells of the input
-    for z in tqdm(range(len(df_input))):
+    # It launches parallel processing of row_match function through dataframe
 
-        try:
-            del df_parc['JARO']
-        except:
-            pass
+    list_row = list(range(len(df_input)))
 
-        # A new temporary column is created on the dataframe with each iteration. This column calculates the string similarity of cell with all the cells on the main dataframe.
-        df_parc['JARO'] = df_parc.apply(lambda x: js.jaro_winkler_similarity(df_input.iloc[z]['CODEX_LIST'], x['CODEX_MKG']), axis=1)
-        # Matches to the most similar cell on the main dataframe
-        match = df_parc.loc[df_parc['JARO'].idxmax()]
-        # If these names are sufficiently similar, the name and id are taken to the input.
-        if match['JARO']>0.8:
-            df_input.at[z,'ID_MATCH_NAME'] = str(match['id_hotel'])
-            df_input.at[z,'NAME_MATCH_NAME'] = str(match['nom_commercial'])
-
-        # Starts the process of matching by adress. First, country; second, city; third, road; fourth, street number.
-        df_parc_filter1 = df_parc[df_parc['COUNTRY']==df_input.iloc[z]['country']]
-        df_parc_filter2 = df_parc_filter1[df_parc_filter1['CITY']==df_input.iloc[z]['city']]
-        df_parc_filter3 = df_parc_filter2[df_parc_filter2['ROAD']==df_input.iloc[z]['road']]
-        df_parc_filter4 = df_parc_filter3[df_parc_filter3['STREET_NUMBER']==df_input.iloc[z]['street_number']]
-        df_parc_final = df_parc_filter4
-
-
-        # If a match is found, then they are transcribed on the input
-        if len(df_parc_final) > 0:
-            df_input.at[z,'ID_MATCH_ADRS'] = str(df_parc_final.iloc[0]['id_hotel'])
-            df_input.at[z,'NAME_MATCH_ADRS'] = str(df_parc_final.iloc[0]['nom_commercial'])
-        else:
-            df_input.at[z,'ID_MATCH_ADRS'] = ""
-            df_input.at[z,'NAME_MATCH_ADRS'] = ""
+    with concurrent.futures.ProcessPoolExecutor(max_workers=20) as executor:
+    	future_to_url = {executor.submit(row_match, row): row for row in list_row}
+    	for future in tqdm(concurrent.futures.as_completed(future_to_row),total=len(list_row)):
+    		row = future_to_row[future]
+    		try:
+    			data = future.result()
+    		except Exception as exc:
+    			print(exc)
 
 
     # It checks on the finalized input if there are name matches that occur more than once, it then flags them.
