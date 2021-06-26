@@ -21,7 +21,7 @@ def send_codex(x):
 
 def flag_detail(s1,s2):
     try:
-        if js.jaro_winkler_similarity(s1,s2) > 0.7:
+        if js.jaro_winkler_similarity(s1,s2) > 0.8:
             return 'OK'
         else:
             return 'CHECK'
@@ -115,7 +115,7 @@ def obtain(x):
         # Matches to the most similar cell on the main dataframe
         match = df_parc.loc[df_parc['JARO'].idxmax()]
         # If these names are sufficiently similar, the name and id are taken to the input.
-        if match['JARO']>0.7:
+        if match['JARO']>0.8:
             df_input.at[z,'ID_MATCH_NAME'] = str(match['id_hotel'])
             df_input.at[z,'NAME_MATCH_NAME'] = str(match['nom_commercial'])
 
