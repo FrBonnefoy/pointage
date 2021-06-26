@@ -177,7 +177,7 @@ def obtain(x):
 
     list_row = list(range(len(df_input)))
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=25) as executor:
     	future_to_row = {executor.submit(row_match, row): row for row in list_row}
     	for future in tqdm(concurrent.futures.as_completed(future_to_row),total=len(list_row)):
     		row = future_to_row[future]
@@ -209,6 +209,7 @@ def obtain(x):
 
     # Returns transformed input
     return df_input
+    df_input.to_pickle('temp_df_input')
 
 
 
