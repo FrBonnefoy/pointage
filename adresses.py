@@ -201,9 +201,9 @@ def obtain(x):
     for z in range(len(df_input)):
         try:
             if id_sum[df_input.iloc[z]['ID_MATCH_NAME']]>1:
-                df_input.at[z, 'CHECK_NAME_MATCH'] = 1
+                df_input.at[z, 'CHECK_NAME_MATCH'] = 'CHECK'
             else:
-                df_input.at[z, 'CHECK_NAME_MATCH'] = 0
+                df_input.at[z, 'CHECK_NAME_MATCH'] = 'OK'
         except:
             pass
 
