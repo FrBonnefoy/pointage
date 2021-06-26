@@ -128,8 +128,18 @@ def row_match(z):
 def obtain(x):
     #Initializes main dataframe
     init_parc()
-    # Read the file
+    # Reads the file
     global df_input
+    if 'final_' in x:
+        try:
+            df_input = pandas.read_excel(x, sheet_name = 'DATA')
+        except:
+            df_input = pandas.read_excel(x)
+
+        nom = df_input["nom"]
+        df_input.drop(labels=["nom"], axis=1,inplace = True)
+        df_input.insert(1, "nom", nom)
+
     try:
         df_input = pd.read_excel(x)
     except:
