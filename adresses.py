@@ -46,7 +46,7 @@ def init_parc():
     global df_parc
     # Reads the file with the information on the worldwide chain hotel supply. This line of code, and the corresponding file, should be updated each year.
     df_parc = pd.read_pickle('/home/jovyan/parc2020')
-    # It assures that all names on the main dataframe are strings
+    # It assures that all names and ids on the main dataframe are strings
     df_parc['nom_commercial'] = df_parc['nom_commercial'].astype(str)
     df_parc['id_hotel'] = df_parc['nom_commercial'].astype(str)
     # It phoenetically encodes the names on the input and on the main dataframe
