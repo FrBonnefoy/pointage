@@ -22,7 +22,7 @@ def send_codex(x):
 
 def flag_detail(s1,s2):
     try:
-        if js.jaro_winkler_similarity(s1,s2) > 0.95:
+        if js.jaro_winkler_similarity(s1,s2) > 0.9:
             return 'OK'
         else:
             return 'CHECK'
@@ -211,9 +211,10 @@ def obtain(x):
 
 
     # It checks on the finalized input if there are name matches that occur more than once, it then flags them.
-    df_input['CHECK_NAME_MATCH'] = pd.Series( dtype="int64")
+    df_input['CHECK_NAME_MATCH'] = pd.Series( str )
     id_list = df_input['ID_MATCH_NAME'].to_list()
     id_list = [str(x) for x in id_list]
+    id_list = df_input[df_input['ID_MATCH_NAME'].notnull()]['ID_MATCH_NAME'].to_list()
     try:
         id_list.remove('<NA>')
     except:
