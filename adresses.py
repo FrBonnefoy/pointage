@@ -22,7 +22,7 @@ def send_codex(x):
 
 def flag_detail(s1,s2):
     try:
-        if js.jaro_winkler_similarity(s1,s2) > 0.9:
+        if js.jaro_winkler_similarity(s1,s2) > 0.8:
             return 'OK'
         else:
             return 'CHECK'
