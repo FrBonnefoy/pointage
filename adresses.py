@@ -21,7 +21,7 @@ def send_codex(x):
 
 def flag_detail(s1,s2):
     try:
-        if jellyfish.jaro_winkler_similarity(s1,s2) > 0.7:
+        if js.jaro_winkler_similarity(s1,s2) > 0.7:
             return 'OK'
         else:
             return 'CHECK'
@@ -120,21 +120,12 @@ def obtain(x):
             df_input.at[z,'NAME_MATCH_NAME'] = str(match['nom_commercial'])
 
         # Starts the process of matching by adress. First, country; second, city; third, road; fourth, street number.
-        if len(df_input.iloc[z]['country'])>0:
-            df_parc_filter1 = df_parc[df_parc['COUNTRY']==df_input.iloc[z]['country']]
-            if len(df_input.iloc[z]['city'])>0:
-                df_parc_filter2 = df_parc_filter1[df_parc_filter1['CITY']==df_input.iloc[z]['city']]
-                if len(df_input.iloc[z]['road'])>0:
-                    df_parc_filter3 = df_parc_filter2[df_parc_filter2['ROAD']==df_input.iloc[z]['road']]
-                    if len(df_input.iloc[z]['street_number'])>0:
-                        df_parc_filter4 = df_parc_filter3[df_parc_filter3['STREET_NUMBER']==df_input.iloc[z]['street_number']]
-                        df_parc_final = df_parc_filter3
-                else:
-                    df_parc_final = df_parc_filter3
-            else:
-                df_parc_final = df_parc_filter2
-        else:
-            df_parc_final = df_parc_filter1
+        df_parc_filter1 = df_parc[df_parc['COUNTRY']==df_input.iloc[z]['country']]
+        df_parc_filter2 = df_parc_filter1[df_parc_filter1['CITY']==df_input.iloc[z]['city']]
+        df_parc_filter3 = df_parc_filter2[df_parc_filter2['ROAD']==df_input.iloc[z]['road']]
+        df_parc_filter4 = df_parc_filter3[df_parc_filter3['STREET_NUMBER']==df_input.iloc[z]['street_number']]
+        df_parc_final = df_parc_filter3
+
 
         # If a match is found, then they are transcribed on the input
         if len(df_parc_final) > 0:
