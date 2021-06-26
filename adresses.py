@@ -124,7 +124,7 @@ def obtain(x):
         df_parc_filter2 = df_parc_filter1[df_parc_filter1['CITY']==df_input.iloc[z]['city']]
         df_parc_filter3 = df_parc_filter2[df_parc_filter2['ROAD']==df_input.iloc[z]['road']]
         df_parc_filter4 = df_parc_filter3[df_parc_filter3['STREET_NUMBER']==df_input.iloc[z]['street_number']]
-        df_parc_final = df_parc_filter3
+        df_parc_final = df_parc_filter4
 
 
         # If a match is found, then they are transcribed on the input
