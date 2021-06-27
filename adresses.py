@@ -163,7 +163,7 @@ def obtain(x):
     print('Fetching location data...')
 
     for a_data in tqdm(df_list):
-        time.sleep(0.75)
+        time.sleep(5)
         a_data['DATA'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).data, axis=1)
 
 
