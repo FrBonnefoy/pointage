@@ -12,7 +12,7 @@ from postal.parser import parse_address
 import jellyfish as js
 import concurrent.futures
 import time
-from random import randint
+import random
 
 # Codifies names according to phonetics
 
@@ -165,7 +165,7 @@ def obtain(x):
     print('Fetching location data...')
 
     for a_data in tqdm(df_list):
-        time.sleep(randint(5,120))
+        time.sleep(random.randint(5,120))
         a_data['DATA'] = a_data.apply(lambda x: gc.searcher_detail(x[a_data.columns[0]]).data, axis=1)
 
 
