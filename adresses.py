@@ -254,6 +254,7 @@ def obtain(x):
 
 
 class parse_adrs:
+
     def __init__(self,query):
         self.query = query
         self.data = parse_address(query)
