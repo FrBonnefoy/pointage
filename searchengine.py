@@ -32,9 +32,19 @@ def flag_codex(x,y):
 class matcher:
     def __init__(self,match):
         self.match = match
-        self.id = df[df['nom_commercial']== self.match].id_hotel.iloc[0]
-        self.country = df[df['nom_commercial']== self.match].libelle_pays.iloc[0]
-        self.city = df[df['nom_commercial']== self.match].libelle_ville.iloc[0]
+        try:
+            self.id = df[df['nom_commercial']== self.match].id_hotel.iloc[0]
+        except IndexError:
+            self.id = 'Not Found'
+        try:
+            self.country = df[df['nom_commercial']== self.match].libelle_pays.iloc[0]
+        except IndexError:
+            self.country = 'Not Found'
+        try:
+            self.city = df[df['nom_commercial']== self.match].libelle_ville.iloc[0]
+        except IndexError:
+            self.city = 'Not Found'
+
 
 class searchengine:
     def __init__(self,query):
