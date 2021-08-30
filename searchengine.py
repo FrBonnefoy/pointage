@@ -44,6 +44,7 @@ class searchengine:
     def search(self,x=0):
         global results
         global results_codex
+        global results_codex2
         global results_id
         global match
         results_codex = {}
@@ -51,6 +52,10 @@ class searchengine:
         results = bm25.get_top_n(self.tquery, df.nom_commercial.values, n=5)
         for result in results:
             results_codex[result] = flag_codex(result,self.query)
+        results_codex2={}
+        for result in results_codex:
+            if results_codex[result] > 0.5
+                results_codex2[result] = results_codex[result]
         match = max(results_codex, key=results_codex.get)
         for result in results:
             results_id[result] = matcher(result).id
