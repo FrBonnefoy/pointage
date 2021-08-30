@@ -56,7 +56,7 @@ class searchengine:
         for result in results_codex:
             if results_codex[result] > 0.5:
                 results_codex2[result] = results_codex[result]
-        match = max(results_codex, key=results_codex.get)
+        match = max(results_codex2, key=results_codex2.get)
         for result in results:
             results_id[result] = matcher(result).id
         if x==1:
