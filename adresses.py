@@ -13,11 +13,13 @@ import jellyfish as js
 import concurrent.futures
 import time
 import random
+from adrs_modules import additional_features as _add
+
 
 # Codifies names according to phonetics
 
 def send_codex(x):
-    rating_codex1 = [js.match_rating_codex(y) for y in x.split()]
+    rating_codex1 = [js.mch_rating_codex(y) for y in x.split()]
     return ''.join(rating_codex1)
 
 # Flags strings that are very dissimilar
@@ -252,6 +254,7 @@ def obtain(x):
 
 
 class parse_adrs:
+
     def __init__(self,query):
         self.query = query
         self.data = parse_address(query)
