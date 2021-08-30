@@ -54,7 +54,7 @@ class searchengine:
             results_codex[result] = flag_codex(result,self.query)
         results_codex2={}
         for result in results_codex:
-            if results_codex[result] > 0.5
+            if results_codex[result] > 0.5:
                 results_codex2[result] = results_codex[result]
         match = max(results_codex, key=results_codex.get)
         for result in results:
