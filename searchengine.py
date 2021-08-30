@@ -33,7 +33,8 @@ class matcher:
     def __init__(self,match):
         self.match = match
         self.id = df[df['nom_commercial']== self.match].id_hotel.iloc[0]
-
+        self.country = df[df['libelle_pays']== self.match].id_hotel.iloc[0]
+        self.city = df[df['libelle_ville']== self.match].id_hotel.iloc[0]
 
 class searchengine:
     def __init__(self,query):
