@@ -34,7 +34,7 @@ class matcher:
         self.match = match
         self.id = df[df['nom_commercial']== self.match].id_hotel.iloc[0]
         self.country = df[df['nom_commercial']== self.match].libelle_pays.iloc[0]
-        self.city = df[df['nom_commercial']== self.match].libelle_vill.iloc[0]
+        self.city = df[df['nom_commercial']== self.match].libelle_ville.iloc[0]
 
 class searchengine:
     def __init__(self,query):
