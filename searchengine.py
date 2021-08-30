@@ -25,8 +25,10 @@ bm25 = BM25Okapi(tok_text)
 
 def flag_codex(x,y):
     rating_codex1 = [js.match_rating_codex(z) for z in x.split()]
-    string_codex = ''.join(rating_codex1)
-    score = js.jaro_winkler_similarity(string_codex,y)
+    string_codex1 = ''.join(rating_codex1)
+    rating_codex2 = [js.match_rating_codex(z) for z in y.split()]
+    string_codex2 = ''.join(rating_codex2)
+    score = js.jaro_winkler_similarity(string_codex1, string_codex2)
     return score
 
 class matcher:
